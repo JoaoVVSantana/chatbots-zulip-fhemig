@@ -8,6 +8,7 @@
 *.pyd
 __pycache__/
 env/
+data/
 venv/
 venv_chatbots/
 
