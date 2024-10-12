@@ -8,7 +8,10 @@
 *.pyd
 __pycache__/
 env/
-data/
+data/faiss_docs.pkl
+data/faiss_index.index
+data/manual_consolidado.pdf
+data/retriever.joblib
 venv/
 venv_chatbots/
 
