@@ -1,6 +1,7 @@
 ## Loader do PDF
 
 from langchain_community.document_loaders import PyMuPDFLoader
+from langchain_community.document_loaders import UnstructuredMarkdownLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 import os
@@ -8,11 +9,17 @@ from dotenv import load_dotenv
 from langchain.text_splitter import CharacterTextSplitter
 
 # Caminho do PDF a ser processado
-path = "data\\planejamento_estrategico.pdf"
+path = "data\\planejamento_estrategico.md"
 
 # Carrega o PDF usando PyMuPDFLoader
 # PyMuPDFLoader é eficiente para extrair texto estruturado de documentos PDF.
-loader_structured = PyMuPDFLoader(path)
+# loader_structured = PyMuPDFLoader(path)
+
+# Markdown
+loader_structured = UnstructuredMarkdownLoader(path)
+
+
+
 
 # Carrega todas as páginas do PDF em uma lista de documentos
 pages_str = loader_structured.load()
