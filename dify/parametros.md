@@ -1,0 +1,1 @@
+MODELO ATUAL = Mixtral-8x7b-Instruct-v0.1
