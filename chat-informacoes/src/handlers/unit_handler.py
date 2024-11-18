@@ -32,7 +32,7 @@ class UnitHandler:
             print(f"Erro: Falha ao decodificar o arquivo JSON: {file_path}")
             return []
 
-    def get_initial_message(self) -> str:
+    def get_initial_message(self, nome_usuario) -> str:
         """
         Retorna a mensagem inicial para seleção de unidade.
 
@@ -40,7 +40,7 @@ class UnitHandler:
         """
         unit_list = "\n".join([f"{i+1}. {unit['name']}" for i, unit in enumerate(self.units)])
         return (
-            "Para eu te ajudar, vamos primeiro selecionar sua unidade. "
+            f"Olá, {nome_usuario}! Para eu te ajudar, vamos primeiro selecionar sua unidade. "
             f"Escolha na lista abaixo, o número da sua unidade:\n\n{unit_list}"
         )
 
@@ -53,8 +53,10 @@ class UnitHandler:
         """
         if user_input.isdigit():
             index = int(user_input) - 1
+            print(f"User input: {user_input}, Calculated index: {index}")
             if 0 <= index < len(self.units):
                 selected_unit = self.units[index]
+                print(f"Selected unit: {selected_unit}")
                 return self.create_success_response(selected_unit)
         
         return self.create_error_response("Por favor, digite apenas o número da unidade desejada.")
@@ -88,5 +90,5 @@ class UnitHandler:
         """
         return {
             "success": False,
-            "message": f"{error_message}\n\n{self.get_initial_message()}"
+            "message": f"{error_message}"
         }

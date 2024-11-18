@@ -45,7 +45,6 @@ class InformationHandler:
             return {}
 
     def handle_indicator_request(self, indicator_choice: str, unit: str) -> Dict[str, Any]:
-def handle_indicator_request(self, indicator_choice: str, unit: str) -> Dict[str, Any]:
         """
         Processa a solicitação de um indicador específico do Painel Fhemig do Futuro.
 

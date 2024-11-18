@@ -20,7 +20,6 @@ def setup_logging():
     return logging.getLogger(__name__)
 
 # Carregamento de variáveis de ambiente
-def load_environment():
     """
     Carrega as variáveis de ambiente necessárias para o chatbot.
     """
@@ -39,9 +38,6 @@ def main():
     logger.info("Iniciando o Chatbot Fhemig...")
 
     try:
-        # Carregar variáveis de ambiente
-        load_environment()
-        logger.info("Variáveis de ambiente carregadas com sucesso.")
 
         # Inicializar o chatbot
         bot = FhemigChatbot()

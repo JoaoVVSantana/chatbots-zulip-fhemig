@@ -18,13 +18,13 @@ class FhemigChatbot:
         # Carrega variáveis de ambiente
         load_dotenv()
         # Inicializa o cliente Zulip
-        self.client = zulip.Client(config_file="zuliprc")
+        self.client = zulip.Client(config_file="chat-informacoes\\zuliprc")
         # Inicializa os handlers para diferentes funcionalidades
-        self.unit_handler = UnitHandler('data/units.json')
+        self.unit_handler = UnitHandler('chat-informacoes\\data\\units.json')
         self.information_handler = InformationHandler(
-            'data/indicators.json',
-            'data/sigh_reports.json',
-            'data/tasy_reports.json'
+            'chat-informacoes\\data\\indicators.json',
+            'chat-informacoes\\data\\sigh_reports.json',
+            'chat-informacoes\\data\\tasy_reports.json'
         )
         self.feedback_handler = FeedbackHandler()
         # Dicionário para armazenar o estado da conversa de cada usuário
@@ -38,11 +38,12 @@ class FhemigChatbot:
         """
         content = message['content']
         sender_id = message['sender_id']
+        sender_full_name = message['sender_full_name']
         
         # Inicializa o estado do usuário se for a primeira interação
         if sender_id not in self.user_states:
             self.user_states[sender_id] = {'state': 'initial'}
-            self.send_response(message, self.unit_handler.get_initial_message())
+            self.send_response(message, self.unit_handler.get_initial_message(nome_usuario=sender_full_name))
             return
 
         current_state = self.user_states[sender_id]['state']
@@ -56,7 +57,8 @@ class FhemigChatbot:
                     'unit': response['selected_unit'],
                     'system': response['system']
                 })
-            self.send_response(message, response['message'])
+                self.send_response(message, response['message'])
+                print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
         
         # Lógica para o estado após a seleção da unidade
         elif current_state == 'unit_selected':
@@ -133,3 +135,4 @@ class FhemigChatbot:
 if __name__ == "__main__":
     bot = FhemigChatbot()
     bot.run()
+
