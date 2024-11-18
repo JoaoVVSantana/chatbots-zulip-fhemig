@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Hospital João XXIII",
+    "system": "SIGH"
+  },
+  {
+    "name": "Hospital Maria Amélia Lins",
+    "system": "SIGH"
+  },
+  {
+    "name": "Hospital Infantil João Paulo II",
+    "system": "SIGH"
+  },
+  {
+    "name": "Hospital Alberto Cavalcanti",
+    "system": "SIGH"
+  },
+  {
+    "name": "Hospital Júlia Kubitschek",
+    "system": "SIGH"
+  },
+  {
+    "name": "Hospital Regional Antônio Dias",
+    "system": "SIGH"
+  },
+  {
+    "name": "Hospital Regional Dr. João Penido",
+    "system": "SIGH"
+  },
+  {
+    "name": "Maternidade Odete Valadares",
+    "system": "SIGH"
+  },
+  {
+    "name": "Hospital Eduardo de Menezes",
+    "system": "TASY"
+  },
+  {
+    "name": "Casa de Saúde Padre Damião",
+    "system": "TASY"
+  },
+  {
+    "name": "Casa de Saúde Santa Fé",
+    "system": "TASY"
+  },
+  {
+    "name": "Casa de Saúde Santa Isabel",
+    "system": "TASY"
+  },
+  {
+    "name": "Casa de Saúde São Francisco de Assis",
+    "system": "TASY"
+  },
+  {
+    "name": "Hospital Cristiano Machado",
+    "system": "TASY"
+  },
+  {
+    "name": "Centro Hospital Psiquiátrico de Barbacena",
+    "system": "TASY"
+  },
+  {
+    "name": "Hospital Regional de Barbacena Dr. José Américo",
+    "system": "TASY"
+  },
+  {
+    "name": "Instituto Raul Soares",
+    "system": "TASY"
+  },
+  {
+    "name": "MG Transplantes",
+    "system": "SIGH"
+  }
+]
