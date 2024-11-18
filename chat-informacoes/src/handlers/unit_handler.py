@@ -75,9 +75,13 @@ class UnitHandler:
             "message": (
                 f"Ótimo! Você selecionou a unidade {unit['name']}. "
                 f"Esta unidade utiliza o sistema {unit['system']}. "
-                "Como posso ajudar você hoje? Escolha uma das opções abaixo:\n\n"
-                "1. Consultar indicadores do Painel Fhemig do Futuro\n"
-                "2. Buscar outras informações"
+                "Qual informação você deseja obter?	\n\n"
+                "1: Taxa de Ocupação Hospitalar\n"
+                "2: Tempo Médio de Permanência\n"
+                "3: Número de Internações\n"
+                "4: Número de Cirurgias\n"
+                "5: Número de Doadores Efetivos\n"
+                "6: Outros"
             )
         }
 

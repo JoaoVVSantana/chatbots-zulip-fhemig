@@ -62,14 +62,10 @@ class FhemigChatbot:
         
         # Lógica para o estado após a seleção da unidade
         elif current_state == 'unit_selected':
-            if content == '1':
+            if content in ['1', '2', '3', '4', '5']:
                 # Opção para consultar indicadores/informações
-                if self.user_states[sender_id]['system'] == 'SIGH':
-                    response = self.information_handler.handle_sigh_request_initial("", self.user_states[sender_id]['unit'])
-                    self.user_states[sender_id]['state'] = 'sigh_indicator_selection'
-                else:  # Tasy
-                    response = "Por favor, descreva brevemente qual informação você está buscando no sistema Tasy."
-                    self.user_states[sender_id]['state'] = 'tasy_info_request'
+                response = self.information_handler.handle_indicator_request(content, self.user_states[sender_id]['unit'])
+                self.user_states[sender_id]['state'] = 'feedback'
             elif content == '2':
                 # Opção para buscar outras informações
                 response = "Por favor, descreva brevemente qual outra informação você está buscando."

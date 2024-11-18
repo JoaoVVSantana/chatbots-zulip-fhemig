@@ -52,7 +52,8 @@ class InformationHandler:
         :param unit: Unidade selecionada pelo usuário.
         :return: Dicionário contendo a resposta formatada em Markdown.
         """
-        indicator_map = {str(i): name for i, name in enumerate(self.indicators.keys(), 1)}
+        indicator_map = {str(i): indicator['nome'] for i, indicator in enumerate(self.indicators.values(), 1)}
+        
         
         if indicator_choice in indicator_map:
             indicator_name = indicator_map[indicator_choice]
@@ -64,7 +65,10 @@ class InformationHandler:
                 f"1. Acesse o [Painel Fhemig do Futuro]({painel_url})\n"
                 "2. Na barra superior, selecione sua unidade\n"
                 f"3. Procure pelo indicador '{indicator_name}' no painel\n\n"
-                "Se você tiver dificuldades para encontrar o indicador, entre em contato com o Núcleo de Informação.\n\n"
+                "Se você tiver dificuldades para encontrar o indicador, entre em contato com o Núcleo de Informação, por meio do endereço: nucleo.informacao@fhemig.mg.gov.br.\n\n"
+                "Posso ajudar com algo mais?\n"
+                "1. Sim\n"
+                "2. Não"
                 
             )
             
