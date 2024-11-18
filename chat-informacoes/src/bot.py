@@ -12,13 +12,20 @@ class FhemigChatbot:
     """
 
     def __init__(self):
+        """
+        Inicializa o chatbot Fhemig, carregando configurações e inicializando handlers.
+        """
         # Carrega variáveis de ambiente
         load_dotenv()
         # Inicializa o cliente Zulip
         self.client = zulip.Client(config_file="zuliprc")
         # Inicializa os handlers para diferentes funcionalidades
-        self.unit_handler = UnitHandler('data/units.json') ## Caminho JSON
-        self.information_handler = InformationHandler()
+        self.unit_handler = UnitHandler('data/units.json')
+        self.information_handler = InformationHandler(
+            'data/indicators.json',
+            'data/sigh_reports.json',
+            'data/tasy_reports.json'
+        )
         self.feedback_handler = FeedbackHandler()
         # Dicionário para armazenar o estado da conversa de cada usuário
         self.user_states = {}
@@ -44,45 +51,55 @@ class FhemigChatbot:
         if current_state == 'initial':
             response = self.unit_handler.handle(content)
             if response['success']:
-                self.user_states[sender_id]['state'] = 'unit_selected'
-                self.user_states[sender_id]['unit'] = response['selected_unit']
-                self.user_states[sender_id]['system'] = response['system']
+                self.user_states[sender_id].update({
+                    'state': 'unit_selected',
+                    'unit': response['selected_unit'],
+                    'system': response['system']
+                })
             self.send_response(message, response['message'])
         
         # Lógica para o estado após a seleção da unidade
         elif current_state == 'unit_selected':
             if content == '1':
-                # Opção para consultar indicadores
-                response = "Ótimo! Vamos consultar os indicadores do Painel Fhemig do Futuro. Qual indicador você gostaria de ver?\n\n1. Taxa de Ocupação (TOH)\n2. Tempo Médio de Permanência Hospitalar (TMP)\n3. Número de Internações\n4. Número de Cirurgias\n5. Número de Doadores Efetivos"
-                self.user_states[sender_id]['state'] = 'indicator_selection'
+                # Opção para consultar indicadores/informações
+                if self.user_states[sender_id]['system'] == 'SIGH':
+                    response = self.information_handler.handle_sigh_request_initial("", self.user_states[sender_id]['unit'])
+                    self.user_states[sender_id]['state'] = 'sigh_indicator_selection'
+                else:  # Tasy
+                    response = "Por favor, descreva brevemente qual informação você está buscando no sistema Tasy."
+                    self.user_states[sender_id]['state'] = 'tasy_info_request'
             elif content == '2':
                 # Opção para buscar outras informações
-                response = "Entendi que você precisa de outras informações. Por favor, descreva brevemente qual informação você está buscando."
+                response = "Por favor, descreva brevemente qual outra informação você está buscando."
                 self.user_states[sender_id]['state'] = 'other_info'
             else:
                 # Mensagem de erro para entrada inválida
-                response = "Desculpe, não entendi sua escolha. Por favor, digite 1 para consultar indicadores ou 2 para buscar outras informações."
-            self.send_response(message, response)
+                response = "Opção inválida. Digite 1 para consultar indicadores/informações ou 2 para outras informações."
+            self.send_response(message, response['message'] if isinstance(response, dict) else response)
 
-        # Lógica para seleção de indicador específico
-        elif current_state == 'indicator_selection':
-            # Placeholder para implementação futura da lógica de busca de indicador
-            response = f"Você selecionou o indicador {content}. [Aqui entraria a lógica para buscar e apresentar o indicador]\n\nVocê gostaria de consultar mais alguma coisa?\n1. Sim\n2. Não"
-            self.user_states[sender_id]['state'] = 'feedback'
-            self.send_response(message, response)
+        # Lógica para seleção de indicador específico no SIGH
+        elif current_state == 'sigh_indicator_selection':
+            response = self.information_handler.handle_sigh_indicator_selection(content, {
+                'info_request': "",
+                'unit': self.user_states[sender_id]['unit']
+            })
+            if response['success']:
+                self.user_states[sender_id]['state'] = 'feedback'
+            self.send_response(message, response['message'])
 
-        # Lógica para busca de outras informações
-        elif current_state == 'other_info':
-            # Placeholder para implementação futura da lógica de busca de outras informações
-            response = f"Entendi que você está buscando informações sobre '{content}'. [Aqui entraria a lógica para buscar e apresentar a informação]\n\nVocê gostaria de consultar mais alguma coisa?\n1. Sim\n2. Não"
+        # Lógica para busca de informações no Tasy ou outras informações
+        elif current_state == 'tasy_info_request' or current_state == 'other_info':
+            system = self.user_states[sender_id]['system']
+            unit = self.user_states[sender_id]['unit']
+            response = self.information_handler.handle_other_info_request(content, unit, system)
             self.user_states[sender_id]['state'] = 'feedback'
-            self.send_response(message, response)
+            self.send_response(message, response['message'])
 
         # Lógica para feedback e continuação ou encerramento da conversa
         elif current_state == 'feedback':
             if content == '1':
                 # Usuário deseja continuar
-                response = "Ótimo! Como posso ajudar você agora?\n1. Consultar indicadores do Painel Fhemig do Futuro\n2. Buscar outras informações"
+                response = "Como posso ajudar você agora?\n1. Consultar indicadores/informações\n2. Buscar outras informações"
                 self.user_states[sender_id]['state'] = 'unit_selected'
             elif content == '2':
                 # Usuário deseja encerrar
@@ -90,7 +107,7 @@ class FhemigChatbot:
                 self.user_states[sender_id] = {'state': 'initial'}
             else:
                 # Mensagem de erro para entrada inválida
-                response = "Desculpe, não entendi sua escolha. Por favor, digite 1 para continuar ou 2 para encerrar."
+                response = "Opção inválida. Digite 1 para continuar ou 2 para encerrar."
             self.send_response(message, response)
 
     def send_response(self, original_message: Dict[str, Any], response_content: str) -> None:
