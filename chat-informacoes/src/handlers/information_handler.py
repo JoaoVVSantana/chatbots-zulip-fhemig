@@ -22,10 +22,9 @@ class InformationHandler:
             "1": "Taxa de Ocupação Hospitalar",
             "2": "Tempo Médio de Permanência",
             "3": "Número de Internações",
-            "4": "Número de Atendimentos de Urgência",
-            "5": "Número de Cirurgias",
-            "6": "Número de Consultas Ambulatoriais",
-            "7": "Outros"
+            "4": "Número de Cirurgias",
+            "5": "Número de Doadores Efetivos",
+            "6": "Outros"
         }
 
     def load_data(self, file_path: str) -> Dict[str, Any]:
