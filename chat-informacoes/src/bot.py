@@ -23,6 +23,7 @@ class FhemigChatbot:
         self.unit_handler = UnitHandler('chat-informacoes\\data\\units.json')
         self.information_handler = InformationHandler(
             'chat-informacoes\\data\\indicators.json',
+            'chat-informacoes\\data\\fhemig_numeros.json',
             'chat-informacoes\\data\\sigh_reports.json',
             'chat-informacoes\\data\\tasy_reports.json'
         )
@@ -46,12 +47,13 @@ class FhemigChatbot:
             self.send_response(message, self.unit_handler.get_initial_message(nome_usuario=sender_full_name))
             return
 
+        # Associa o id especifico ao state
         current_state = self.user_states[sender_id]['state']
 
         # Lógica para o estado inicial (seleção de unidade)
         if current_state == 'initial':
             response = self.unit_handler.handle(content)
-            if response['success']:
+            if response['success']: ## Response é sempre o return das funções
                 self.user_states[sender_id].update({
                     'state': 'unit_selected',
                     'unit': response['selected_unit'],
@@ -64,24 +66,31 @@ class FhemigChatbot:
         elif current_state == 'unit_selected':
             if content in ['1', '2', '3', '4', '5']:
                 # Opção para consultar indicadores/informações
-                response = self.information_handler.handle_indicator_request(content, self.user_states[sender_id]['unit'])
+                response = self.information_handler.handle_indicator_fhemig_futuro(content, self.user_states[sender_id]['unit'])
                 self.user_states[sender_id]['state'] = 'feedback'
-            elif content == '2':
-                # Opção para buscar outras informações
-                response = "Por favor, descreva brevemente qual outra informação você está buscando."
-                self.user_states[sender_id]['state'] = 'other_info'
+            elif content == '6':
+                # Opção para buscar outras informações ## Aqui entra a lógica if SIGH (fhemig em numeros -> pentaho)| TASY
+                if self.user_states[sender_id]['system'] == 'SIGH':
+                    response = self.information_handler.handle_other_sigh(indicator_name = content, unit = self.user_states[sender_id]['unit'])                 
+                    self.user_states[sender_id]['state'] = 'sigh_indicator_selection'
             else:
                 # Mensagem de erro para entrada inválida
-                response = "Opção inválida. Digite 1 para consultar indicadores/informações ou 2 para outras informações."
+                response = "Opção inválida."
             self.send_response(message, response['message'] if isinstance(response, dict) else response)
 
         # Lógica para seleção de indicador específico no SIGH
         elif current_state == 'sigh_indicator_selection':
-            response = self.information_handler.handle_sigh_indicator_selection(content, {
-                'info_request': "",
-                'unit': self.user_states[sender_id]['unit']
-            })
-            if response['success']:
+            if content in ['1', '2', '3', '4', '5',
+                           '8', '9', '10', '11', '12',
+                           '13', '14']:
+                response = self.information_handler.handle_fhemig_em_numeros(content, self.user_states[sender_id]['unit'])
+                if response['success']:
+                    self.user_states[sender_id]['state'] = 'feedback'
+            elif content == '15':
+                response = self.information_handler.handle_other_than_fhemig_numeros(self.user_states[sender_id]['unit'], self.user_states[sender_id]['system'])
+                ## relatórios pentaho
+            else: ## Se colocar qualquer outro a função vai retornar mensagem de erro
+                response = self.information_handler.handle_fhemig_em_numeros(content, self.user_states[sender_id]['unit'])
                 self.user_states[sender_id]['state'] = 'feedback'
             self.send_response(message, response['message'])
 
