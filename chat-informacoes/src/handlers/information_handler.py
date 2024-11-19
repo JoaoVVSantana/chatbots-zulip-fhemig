@@ -55,163 +55,42 @@ class InformationHandler:
         :param unit: Unidade selecionada pelo usuário.
         :return: Dicionário contendo a resposta formatada em Markdown.
         """
+
+        ## Índice e nome dos indicadores FF
         indicator_map = {str(i): indicator['nome'] for i, indicator in enumerate(self.indicators_fhemig_futuro.values(), 1)}
         
         
-        if indicator_choice in indicator_map:
-            indicator_name = indicator_map[indicator_choice]
-            painel_url = "https://app.powerbi.com/view?r=eyJrIjoiZmY0NmIxZmYtMDdkMy00Yzg1LTkxY2ItZjBhOWEwMTJlNDVhIiwidCI6IjM4ZjAxMzYyLTRiMWMtNGU2ZS05MDE0LTAzN2M1ZDA0MTMyNyJ9"
+        indicator_name = indicator_map[indicator_choice]
+        painel_url = "https://app.powerbi.com/view?r=eyJrIjoiZmY0NmIxZmYtMDdkMy00Yzg1LTkxY2ItZjBhOWEwMTJlNDVhIiwidCI6IjM4ZjAxMzYyLTRiMWMtNGU2ZS05MDE0LTAzN2M1ZDA0MTMyNyJ9"
             
-            message = (
+        message = (
                 f"Para visualizar o indicador **{indicator_name}** para a unidade **{unit}**, "
                 "siga estas instruções:\n\n"
                 f"1. Acesse o [Painel Fhemig do Futuro]({painel_url})\n"
                 "2. Na barra superior, selecione sua unidade\n"
                 f"3. Procure pelo indicador '{indicator_name}' no painel\n\n"
                 "Se você tiver dificuldades para encontrar o indicador, entre em contato com o Núcleo de Informação, por meio do endereço: nucleo.informacao@fhemig.mg.gov.br.\n\n"               
-            )
+                )
             
-            return {
-                "success": True,
-                "message": message,
-                "next_state": "feedback"
-            }
-        else:
-            return {
-                "success": False,
-                "message": "Opção de indicador inválida. Por favor, escolha um número válido.",
-                "next_state": "indicator_selection"
-            }
-    def handle_other_sigh(self, indicator_name: str, unit: str) -> str:
-        """
-        Busca o valor de um indicador específico para uma unidade.
-        (Esta é uma implementação de exemplo e deve ser substituída pela lógica real)
-
-        :param indicator_name: Nome do indicador.
-        :param unit: Nome da unidade.
-        :return: Valor do indicador (como string).
-        """
-        # Messagem indicadores fhemig em numeros
-
-        message = ("Qual informação você deseja obter?\n\n"
-                    "1: Pacientes Dia\n"
-                    "2: Saídas Hospitalares\n"
-                    "3: Óbitos Hospitalares\n"
-                    "4: Óbitos Institucionais\n"
-                    "5: Leitos Dia\n"
-                    "6: Internações Hospitalares\n"
-                    "7: Consultas Médicas Eletivas\n"
-                    "8: Consultas Médicas de Urgência\n"
-                    "9: Saídas por Clínicas\n"
-                    "10: Média de Permanência (Dias)\n"
-                    "11: Taxa de Ocupação (%)\n"
-                    "12: Taxa de Mortalidade Hospitalar Geral (%)\n"
-                    "13: Taxa de Mortalidade Institucional (%)\n"
-                    "14: Índice de Renovação de Leitos\n"
-                    "15: Outros")
-
-
         return {
                 "success": True,
                 "message": message,
-                "next_state": "sigh_indicator_selection"
-            }
-
-    def handle_other_than_fhemig_numeros(self, unit: str, system: str) -> Dict[str, Any]:
-        """
-        Processa encaminhamento de indicadores dentro do SIGH mas que não estão no Fhemig em Números
-
-        :param info_request: Descrição da informação solicitada pelo usuário.
-        :param unit: Unidade selecionada pelo usuário.
-        :param system: Sistema utilizado pela unidade (SIGH ou Tasy).
-        :return: Dicionário contendo a resposta formatada.
-        """
-        if system == "SIGH":
-            message =(
-                "Para buscar outras informações além das mencionadas dentro do SIGH, "
-                "acesse os relatórios do Pentaho.\n\n"
-                "Caso não possua acesso ao Pentaho, envie um e-mail com:\n"
-                "* Nome completo\n"
-                "* CPF\n"
-                "Para o endereço: nucleo.informacao@fhemig.mg.gov.br, solicitando "
-                "acesso ao sistema."
-
-            )
-            return {
-                "success": True,
-                "message": message,
                 "next_state": "feedback"
-            }
-        elif system == "Tasy":
-            pass
-        else:
-            return {
-                "success": False,
-                "message": "Desculpe, não foi possível identificar o sistema correto para sua unidade.",
-                "next_state": "feedback"
-            }
-
-    def handle_sigh_request_initial(self, info_request: str, unit: str) -> Dict[str, Any]:
-        """
-        Inicia o processo de solicitação de informações para o sistema SIGH,
-        oferecendo uma lista de indicadores do Fhemig em Números e a opção 'Outros'.
-
-        :param info_request: Descrição da informação solicitada.
-        :param unit: Nome da unidade.
-        :return: Dicionário com a resposta formatada.
-        """
-        indicator_list = "\n".join([f"{key}. {value}" for key, value in self.fhemig_em_numeros_indicators.items()])
-        message = (
-            f"Para sua solicitação sobre '{info_request}' na unidade {unit}, "
-            "temos os seguintes indicadores disponíveis no Fhemig em Números:\n\n"
-            f"{indicator_list}\n\n"
-            "Por favor, escolha o número do indicador desejado ou '7' para outros relatórios."
-        )
-        return {
-            "success": True,
-            "message": message,
-            "next_state": "sigh_indicator_selection",
-            "context": {"info_request": info_request, "unit": unit}
-        }
-
-    def handle_sigh_indicator_selection(self, choice: str, context: Dict[str, str]) -> Dict[str, Any]:
-        """
-        Processa a escolha do usuário entre os indicadores do Fhemig em Números ou outros relatórios.
-
-        :param choice: Escolha do usuário (número do indicador ou '7' para outros).
-        :param context: Contexto da solicitação (info_request e unit).
-        :return: Dicionário com a resposta formatada.
-        """
-        info_request = context['info_request']
-        unit = context['unit']
-
-        if choice in self.fhemig_em_numeros_indicators:
-            if choice == '7':
-                return self.handle_sigh_other_reports(info_request, unit)
-            else:
-                indicator = self.fhemig_em_numeros_indicators[choice]
-                return self.handle_fhemig_em_numeros(indicator, unit)
-        else:
-            return {
-                "success": False,
-                "message": "Opção inválida. Por favor, escolha um número de 1 a 7.",
-                "next_state": "sigh_indicator_selection",
-                "context": context
-            }
-
+                }
+    
     def handle_fhemig_em_numeros(self, indicator: str, unit: str) -> Dict[str, Any]:
-        """
-        Fornece informações sobre como acessar o indicador específico no Fhemig em Números.
+            """
+            Fornece informações sobre como acessar o indicador específico no Fhemig em Números.
 
-        :param indicator: Nome do indicador selecionado.
-        :param unit: Nome da unidade.
-        :return: Dicionário com a resposta formatada.
-        """
-        
-        indicator_map = {str(i): indicator['nome'] for i, indicator in enumerate(self.indicators_fhemig_numeros.values(), 1)}
-        url_fhemig_numeros = "pentaho.fhemig.mg.gov.br:8080"
+            :param indicator: Nome do indicador selecionado.
+            :param unit: Nome da unidade.
+            :return: Dicionário com a resposta formatada.
+            """
+            
+            indicator_map = {str(i): indicator['nome'] for i, indicator in enumerate(self.indicators_fhemig_numeros.values(), 1)}
+            url_fhemig_numeros = "https://pentaho.fhemig.mg.gov.br:8080"
 
-        if indicator in indicator_map:
+            
             indicator_name = indicator_map[indicator]
             message = (
                 ## Mensagem para instruir Fhemig em Números
@@ -236,60 +115,85 @@ class InformationHandler:
                 "17. Clique em 'OK'\n\n"
                 "Abaixo, segue vídeo com passo a passo ilustrado. Como exemplo, é demonstrado como tirar "
                 "o indicador 'Taxa de Ocupação Hospitalar'.\n\n"
-
-
-            )
+                     )
+            
             return {
                 "success": True,
                 "message": message,
                 "next_state": "feedback"
-            }
-        else:
-            return {
-                "success": False,
-                "message": "Opção Inválida",
+                    }
+
+    def handle_pentaho(self, unit: str, system: str) -> Dict[str, Any]:
+        """
+        Processa encaminhamento de indicadores dentro do SIGH mas que não estão no Fhemig em Números
+
+        :param info_request: Descrição da informação solicitada pelo usuário.
+        :param unit: Unidade selecionada pelo usuário.
+        :param system: Sistema utilizado pela unidade (SIGH ou Tasy).
+        :return: Dicionário contendo a resposta formatada.
+        """
+
+        url_pentaho = "url"
+        ## IDEIA - funcionalidade para solicitar automaticamente o acesso ao Pentaho
+        message = (f"Para acessar outras informações sobre a **{unit}**, " 
+                   f"acesse o **[Pentaho]({url_pentaho})**.\n\n"
+                   "## Não possui acesso?\n\n"
+                   "Caso ainda não possua acesso ao Pentaho, entre em contato com o Núcleo de Informação,"
+                   "por meio do endereço: nucleo.informacao@fhemig.mg.gov.br, solicitando o acesso e informando:\n\n"
+                   "* Nome completo do usuário\n"
+                   "* Unidade\n"
+                   "* Setor\n\n"
+                   "## Já tem login e senha?\n\n"
+                   "1. Acesse o [Pentaho]({url_pentaho})\n"
+                   "2. Clique em 'Login'\n"
+                   "3. Insira o login e senha do Pentaho\n"
+                   "4. Clique em 'Entrar'"
+                   
+                   )
+
+
+        return {
+                "success": True,
+                "message": message,
                 "next_state": "feedback"
-        }
+            }
 
-    def handle_sigh_other_reports(self, info_request: str, unit: str) -> Dict[str, Any]:
+    def handle_tasy(self, unit: str, system: str) -> Dict[str, Any]:
         """
-        Fornece informações sobre como acessar outros relatórios do SIGH no Pentaho Azul.
+        Processa encaminhamento de indicadores dentro do SIGH mas que não estão no Fhemig em Números
 
-        :param info_request: Descrição da informação solicitada.
-        :param unit: Nome da unidade.
-        :return: Dicionário com a resposta formatada.
+        :param info_request: Descrição da informação solicitada pelo usuário.
+        :param unit: Unidade selecionada pelo usuário.
+        :param system: Sistema utilizado pela unidade (SIGH ou Tasy).
+        :return: Dicionário contendo a resposta formatada.
         """
-        pentaho_info = self.sigh_reports.get("pentaho", {})
-        message = (
-            f"Para acessar outros relatórios sobre '{info_request}' para a unidade {unit} no Pentaho Azul:\n\n"
-            f"1. Acesse: {pentaho_info.get('url', 'URL não disponível')}\n"
-            f"2. {pentaho_info.get('instrucoes', 'Instruções não disponíveis')}\n\n"
-            "Se você tiver dificuldades em encontrar o relatório específico, "
-            "por favor, entre em contato com o Núcleo de Informação para assistência adicional."
-        )
+
+        message = (f"Para acessar outras informações sobre a **{unit}**, que utiliza o {system}, acesse o "
+                   "módulo de relatórios do sistema.\n\n"
+                   "Para acessar os relatórios do Tasy, siga os passos abaixo:\n\n"
+                    "## Acessando os relatórios\n\n"
+                    "2. Na tela inicial, clique na aba 'Utilitários'\n"
+                    "3. Selecione a funcionalidade 'Impressão de Relatórios'\n"
+                    "4. Na janela que se abrir, insira no campo título o termo **FHEMIG - NI**\n"
+                    "5. Clique em 'Filtrar'\n"
+                    "6. Na janela do lado direito, clique duas vezes sobre o nome do relatório desejado\n"
+                    "7. Preencha os campos indicados na tela\n"
+                    "8. Clique no botão 'Exportar XLS'\n"
+                    "9. Na tela seguinte, clique no botão 'Continuar'\n"
+                    "10. O download iniciará no canto superior direito da tela\n"
+                    "11. Clique no botão 'Manter' após o início do download\n"
+                    "12. O documento será salvo na pasta de downloads do seu computador\n\n"
+                    "## Observações importantes\n\n"
+                    "* Utilize apenas relatórios com título 'FHEMIG - NI', pois estes foram validados pelo Núcleo de Informação\n"
+                    "* Após baixar o relatório, avalie se a estrutura está adequada e se os dados não apresentam problemas aparentes\n"
+                    "* Informe no histórico da ordem de serviço se são necessários ajustes ou se o relatório está aprovado\n\n"
+                    "## Não encontrou o relatório que precisava?\n\n"
+                    "Procure a referência de informação da sua unidade para solicitar a criação de novo relatório.")
+
+        
         return {
-            "success": True,
-            "message": message,
-            "next_state": "feedback"
-        }
+                "success": True,
+                "message": message,
+                "next_state": "feedback"
+            }
 
-    def handle_tasy_request(self, info_request: str, unit: str) -> Dict[str, Any]:
-        """
-        Processa solicitações de informações para unidades que utilizam o sistema Tasy.
-
-        :param info_request: Descrição da informação solicitada.
-        :param unit: Nome da unidade.
-        :return: Dicionário com a resposta formatada.
-        """
-        tasy_info = self.tasy_reports.get("instrucoes_gerais", "Informações não disponíveis")
-        message = (
-            f"Para obter informações sobre '{info_request}' na unidade {unit}, que utiliza o sistema Tasy:\n\n"
-            f"{tasy_info}\n\n"
-            "Lembre-se de procurar por relatórios com o prefixo 'FHEMIG - NI'.\n"
-            "Se você não encontrar a informação desejada, por favor, entre em contato com o Núcleo de Informação para assistência adicional."
-        )
-        return {
-            "success": True,
-            "message": message,
-            "next_state": "feedback"
-        }

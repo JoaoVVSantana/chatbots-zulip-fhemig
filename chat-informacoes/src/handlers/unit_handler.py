@@ -81,7 +81,18 @@ class UnitHandler:
                 "3: Número de Internações\n"
                 "4: Número de Cirurgias\n"
                 "5: Número de Doadores Efetivos\n"
-                "6: Outros"
+                "6: Pacientes Dia\n"
+                "7: Saídas Hospitalares\n"
+                "8: Óbitos Hospitalares\n"
+                "9: Óbitos Institucionais\n"
+                "10: Leitos Dia\n"
+                "11: Consultas Médicas Eletivas\n"
+                "12: Consultas Médicas de Urgência\n"
+                "13: Saídas por Clínicas\n"
+                "13: Taxa de Mortalidade Hospitalar Geral (%)\n"
+                "14: Taxa de Mortalidade Institucional (%)\n"
+                "15: Índice de Renovação de Leitos\n"
+                "16: Outros"
             )
         }
 

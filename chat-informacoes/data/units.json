@@ -25,15 +25,15 @@
   },
   {
     "name": "Hospital Regional Dr. João Penido",
-    "system": "SIGH"
+    "system": "TASY"
   },
   {
     "name": "Maternidade Odete Valadares",
-    "system": "SIGH"
+    "system": "TASY"
   },
   {
     "name": "Hospital Eduardo de Menezes",
-    "system": "TASY"
+    "system": "SIGH"
   },
   {
     "name": "Casa de Saúde Padre Damião",
@@ -49,11 +49,11 @@
   },
   {
     "name": "Casa de Saúde São Francisco de Assis",
-    "system": "TASY"
+    "system": "SIGH"
   },
   {
     "name": "Hospital Cristiano Machado",
-    "system": "TASY"
+    "system": "SIGH"
   },
   {
     "name": "Centro Hospital Psiquiátrico de Barbacena",
