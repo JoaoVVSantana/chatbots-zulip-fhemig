@@ -40,6 +40,7 @@ class FhemigChatbot:
         content = message['content']
         sender_id = message['sender_id']
         sender_full_name = message['sender_full_name']
+        print(f"O ID DO USUÁRIO É: {sender_id}, o e-mail é {message["sender_email"]}")
         
         # Inicializa o estado do usuário se for a primeira interação
         if sender_id not in self.user_states:
@@ -96,16 +97,33 @@ class FhemigChatbot:
         elif current_state == 'feedback':
             if content == '1':
                 # Usuário deseja continuar
-                response = "Como posso ajudar você agora?\n1. Consultar indicadores/informações\n2. Buscar outras informações"
-                self.user_states[sender_id]['state'] = 'unit_selected'
+                self.user_states[sender_id]['state'] = 'initial'
+                self.send_response(message, self.unit_handler.get_initial_message(nome_usuario=sender_full_name))
+                return
             elif content == '2':
                 # Usuário deseja encerrar
-                response = "Obrigado por usar nosso serviço! Se precisar de mais alguma coisa, é só me chamar. Tenha um ótimo dia!"
-                self.user_states[sender_id] = {'state': 'initial'}
+                response = self.information_handler.handle_feedback()
+                self.user_states[sender_id] = {'state': 'feedback_ni'}
+            elif content == '3':
+                # Usuário deseja encerrar
+                response = "Obrigado por usar o Fhemig Chatbot!"
+                self.user_states = {}
+
             else:
                 # Mensagem de erro para entrada inválida
-                response = "Opção inválida. Digite 1 para continuar ou 2 para encerrar."
+                response = "Opção inválida."
+            self.send_response(message, response["message"])
+
+        elif current_state == 'feedback_ni':
+            self.send_ni(original_message=message, response_content=content)
+            response = ("Sua mensagem foi enviada ao Núcleo de Informação! Em breve alguém irá entrar em contato!\n"
+                        "O que deseja fazer?\n"
+                        "1. Solicitar outra informação\n"
+                        "2. Solicitar ajuda ao Núcleo de Informação diretamente\n"
+                        "3. Encerrar conversa")
+            self.user_states[sender_id] = {'state': 'feedback'}
             self.send_response(message, response)
+            pass
 
     def send_response(self, original_message: Dict[str, Any], response_content: str) -> None:
         """
@@ -117,6 +135,14 @@ class FhemigChatbot:
         self.client.send_message({
             "type": original_message["type"],
             "to": original_message["sender_email"],
+            "content": response_content,
+        })
+
+    def send_ni(self, original_message, response_content: str) -> None:
+        print(response_content)
+        self.client.send_message({
+            "type": original_message["type"],
+            "to": "user75@fhchat.expressomg.mg.gov.br", ## ID GRUPO NI
             "content": response_content,
         })
 

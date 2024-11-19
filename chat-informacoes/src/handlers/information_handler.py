@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 import json
+import time
 
 class InformationHandler:
     """
@@ -69,7 +70,12 @@ class InformationHandler:
                 f"1. Acesse o [Painel Fhemig do Futuro]({painel_url})\n"
                 "2. Na barra superior, selecione sua unidade\n"
                 f"3. Procure pelo indicador '{indicator_name}' no painel\n\n"
-                "Se você tiver dificuldades para encontrar o indicador, entre em contato com o Núcleo de Informação, por meio do endereço: nucleo.informacao@fhemig.mg.gov.br.\n\n"               
+                "Se você tiver dificuldades para encontrar o indicador, entre em contato com o Núcleo de Informação, por meio do endereço: nucleo.informacao@fhemig.mg.gov.br.\n\n\n"
+
+                "O que deseja fazer?\n"
+                "1. Solicitar outra informação\n"
+                "2. Solicitar ajuda ao Núcleo de Informação diretamente\n"
+                "3. Encerrar conversa"               
                 )
             
         return {
@@ -197,3 +203,15 @@ class InformationHandler:
                 "next_state": "feedback"
             }
 
+
+
+    def handle_feedback(self) -> Dict[str, Any]:
+        message = ("Tudo bem! Digite sua mensagem que "
+                   "ela será encaminhada diretamente ao Núcleo de Informação, "
+                   "que entrará em contato assim que possível!")
+        
+        return {
+                "success": True,
+                "message": message,
+                "next_state": "feedback"
+            }
