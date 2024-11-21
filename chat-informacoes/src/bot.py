@@ -106,23 +106,23 @@ class FhemigChatbot:
                 self.user_states[sender_id] = {'state': 'feedback_ni'}
             elif content == '3':
                 # Usuário deseja encerrar
-                response = f"""Obrigado por utilizar o Assistente Virtual da Fhemig! 👋
+                response = (f"Obrigado por utilizar o Assistente Virtual da Fhemig! 👋\n\n"
 
-                                Foi um prazer ajudar você hoje com informações e orientações sobre nossos sistemas e indicadores. Espero que nossa interação tenha sido útil e esclarecedora.
+                            "Foi um prazer ajudar você hoje com informações e orientações sobre nossos sistemas e indicadores. Espero que nossa interação tenha sido útil e esclarecedora.\n\n"
 
-                                🔑 Pontos-chave para lembrar:
-                                • O Painel Fhemig do Futuro está sempre disponível para consultas rápidas
-                                • O Fhemig em Números oferece análises detalhadas e personalizáveis
-                                • Os sistemas de gestão hospitalares contém relatórios importantes
-                                • O Núcleo de Informação está à disposição para dúvidas mais complexas
+                            "🔑 **Pontos-chave para lembrar:**\n"
+                            "• O Painel Fhemig do Futuro está sempre disponível para consultas rápidas\n"
+                            "• O Fhemig em Números oferece análises detalhadas e personalizáveis\n"
+                            "• Os sistemas de gestão hospitalares contêm relatórios importantes\n"
+                            "• O Núcleo de Informação está à disposição para dúvidas mais complexas\n\n"
 
-                                💡 Dica: Mantenha-se atualizado sobre novos recursos e relatórios. Eles são frequentemente adicionados para melhorar nossa gestão de informações!
+                            "💡 **Dica:** Mantenha-se atualizado sobre novos recursos e relatórios. Eles são frequentemente adicionados para melhorar nossa gestão de informações!\n\n"
 
-                                Se surgir qualquer dúvida adicional, não hesite em iniciar uma nova conversa. Estou aqui 24/7 para auxiliar você em suas necessidades de informação.
+                            "Se surgir qualquer dúvida adicional, não hesite em iniciar uma nova conversa. Estou aqui 24/7 para auxiliar você em suas necessidades de informação.\n\n"
 
-                                Desejo um excelente dia e sucesso em suas atividades na Fhemig! 🏥📊
+                            "Desejo um excelente dia e sucesso em suas atividades na Fhemig! 🏥📊\n\n"
 
-                                Até a próxima!"""
+                            "**Até a próxima!**")
                 self.user_states = {}
 
             else:
@@ -132,25 +132,25 @@ class FhemigChatbot:
 
         elif current_state == 'feedback_ni':
             self.send_ni(original_message=message, response_content=content)
-            response = (f"""✅ Ótimo, {message['sender_full_name']}! 
-                        Sua mensagem foi enviada com sucesso ao Núcleo de Informação.
+            response = (f"✅ **Ótimo, {message['sender_full_name']}!**\n"
+                        "Sua mensagem foi enviada com sucesso ao Núcleo de Informação.\n\n"
 
-                            📬 Confirmação:
-                            • Destinatário: Núcleo de Informação
-                            • Status: Enviado
-                            • Prazo de resposta estimado: Em breve
+                        "📬 **Confirmação:**\n"
+                        "• **Destinatário:** Núcleo de Informação\n"
+                        "• **Status:** Enviado\n"
+                        "• **Prazo de resposta estimado:** Em breve\n\n"
 
-                            Fique tranquilo(a), um membro da equipe analisará sua solicitação e entrará em contato o mais rápido possível. Enquanto isso, há algo mais em que eu possa ajudar?
+                        "Fique tranquilo(a), um membro da equipe analisará sua solicitação e entrará em contato o mais rápido possível. Enquanto isso, há algo mais em que eu possa ajudar?\n\n"
 
-                            Escolha uma das opções abaixo:
+                        "**Escolha uma das opções abaixo:**\n\n"
+                        "1️⃣ Solicitar informações sobre outro tópico\n"
+                        "2️⃣ Enviar uma nova mensagem ao Núcleo de Informação\n"
+                        "3️⃣ Encerrar nossa conversa\n\n"
 
-                            1️⃣ Solicitar informações sobre outro tópico
-                            2️⃣ Enviar uma nova mensagem ao Núcleo de Informação
-                            3️⃣ Encerrar nossa conversa
+                        "💡 **Dica:** Se lembrar de algum detalhe adicional importante, você pode escolher a opção 2 para enviar uma nova mensagem complementar.\n\n"
 
-                            💡 Dica: Se lembrar de algum detalhe adicional importante, você pode escolher a opção 2 para enviar uma nova mensagem complementar.
-
-                            Por favor, digite o número da sua escolha (1-3):""")
+                        "**Por favor, digite o número da sua escolha (1-3):**"
+                        )
             self.user_states[sender_id] = {'state': 'feedback'}
             self.send_response(message, response)
             pass

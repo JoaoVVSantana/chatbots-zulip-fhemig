@@ -40,22 +40,24 @@ class UnitHandler:
         """
         unit_list = "\n".join([f"{i+1}. {unit['name']}" for i, unit in enumerate(self.units)])
         return (
-            f"""Olá, {nome_usuario}! 👋 Bem-vindo(a) ao Assistente Virtual da Fhemig!
+            f"Olá, **{nome_usuario}**!\n\n"
+             
+             "👋 Bem-vindo(a) ao Assistente Virtual da Fhemig!\n\n"
 
-            Estou aqui para facilitar seu acesso às informações cruciais para seu dia a dia
-            de trabalho. 
-            Vamos começar nossa jornada selecionando a sua unidade de trabalho.
+            "Estou aqui para facilitar seu acesso às informações cruciais para seu dia a dia de trabalho.\n\n"
 
-            Por favor, escolha o número correspondente à sua unidade na lista abaixo:
+            "Vamos começar nossa jornada selecionando a sua unidade de trabalho.\n\n"
 
-            {unit_list}
+            "Por favor, **escolha o número correspondente à sua unidade** na lista abaixo:\n\n"
 
-            Após a seleção, poderei te ajudar com:
-            • Consulta de indicadores específicos da sua unidade
-            • Acesso a relatórios e informações do sistema de gestão hospitalar
-            • Esclarecimento de dúvidas sobre os dados disponíveis
+            f"{unit_list}\n\n"
 
-            Estou animado para auxiliar você! Vamos lá, qual é o número da sua unidade? 😊"""
+            "Após a seleção, poderei te ajudar com:\n\n"
+            "• Consulta de indicadores específicos da sua unidade\n"
+            "• Acesso a relatórios e informações do sistema de gestão hospitalar\n"
+            "• Esclarecimento de dúvidas sobre os dados disponíveis\n\n"
+
+            "Estou animado para auxiliar você! Vamos lá, qual é o número da sua unidade? 😊"
         )
 
     def handle(self, user_input: str) -> Dict[str, Any]:
@@ -88,29 +90,31 @@ class UnitHandler:
             "system": unit['system'],
             "message": (
 
-                f"""Obrigado!
-                
-                Você selecionou a unidade {unit['name']}, que utiliza o sistema {unit['system']}.
+                f"Obrigado!\n\n"
+             
+                "Você selecionou a unidade "
+                f"**{unit['name']}**, que utiliza o sistema **{unit['system']}**.\n\n"
 
-                Agora, vamos acessar as informações mais relevantes para você.
+                "Agora, vamos acessar as informações mais relevantes para você.\n\n"
 
-                Por favor, selecione o número correspondente ao indicador que você deseja consultar:
+                "Por favor, selecione o número correspondente ao indicador que você deseja consultar:\n\n"
 
-                1️⃣ Taxa de Ocupação Hospitalar
-                2️⃣ Tempo Médio de Permanência
-                3️⃣ Número de Internações
-                4️⃣ Número de Cirurgias
-                5️⃣ Número de Doadores Efetivos
-                6️⃣ Outros
+                "1️⃣ Taxa de Ocupação Hospitalar\n"
+                "2️⃣ Tempo Médio de Permanência\n"
+                "3️⃣ Número de Internações\n"
+                "4️⃣ Número de Cirurgias\n"
+                "5️⃣ Número de Doadores Efetivos\n"
+                "6️⃣ Outros\n\n"
 
-                Digite apenas o número da sua escolha (1-6).
+                "Digite apenas o número da sua escolha (1-6).\n\n"
 
-                Após sua seleção, lhe informarei como acessar essa informação nas fontes oficiais da Fhemig. 
-                
-                Se você precisar de informações não listadas aqui, a 
-                opção "Outros" está disponível para atender às suas necessidades específicas.
+                "Após sua seleção, lhe informarei como acessar essa informação nas fontes oficiais da Fhemig.\n\n"
+                            
+                "Se você precisar de informações não listadas aqui, a\n"
+                "opção \"Outros\" está disponível para atender às suas necessidades específicas.\n\n"
 
-                Estou aqui para ajudar! Qual informação você precisa? 📊"""
+                "Estou aqui para ajudar! Qual informação você precisa? 📊"
+
 
             )
         }

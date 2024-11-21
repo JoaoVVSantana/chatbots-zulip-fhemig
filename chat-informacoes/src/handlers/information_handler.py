@@ -65,28 +65,29 @@ class InformationHandler:
         painel_url = "https://app.powerbi.com/view?r=eyJrIjoiZmY0NmIxZmYtMDdkMy00Yzg1LTkxY2ItZjBhOWEwMTJlNDVhIiwidCI6IjM4ZjAxMzYyLTRiMWMtNGU2ZS05MDE0LTAzN2M1ZDA0MTMyNyJ9"
             
         message = (
-                f"""Entendi! 📊 Vamos acessar o indicador **{indicator_name}** para a unidade **{unit}**.
+                    f"Entendi! 📊 Vamos acessar o indicador **{indicator_name}** para a unidade **{unit}**.\n\n"
 
-                O **Painel Fhemig do Futuro** é uma ferramenta essencial para monitorar o desempenho e a qualidade dos serviços em nossa instituição. 
+                    "O **Painel Fhemig do Futuro** é uma ferramenta essencial para monitorar o desempenho e a qualidade dos serviços em nossa instituição.\n\n"
 
-                Siga estas etapas simples para visualizar o indicador:
+                    "Siga estas etapas simples para visualizar o indicador:\n\n"
 
-                1️⃣ Acesse o **[Painel Fhemig do Futuro]({painel_url})**
-                2️⃣ No menu lateral, selecione sua unidade: {unit}
-                3️⃣ Localize o indicador '{indicator_name}' no painel
+                    f"1️⃣ Acesse o **[Painel Fhemig do Futuro]({painel_url})**\n"
+                    f"2️⃣ No menu lateral, selecione sua unidade: **{unit}**\n"
+                    f"3️⃣ Localize o indicador **'{indicator_name}'** no painel\n\n"
 
-                Se encontrar qualquer dificuldade, não hesite em contatar nosso Núcleo de Informação:
-                📧 nucleo.informacao@fhemig.mg.gov.br
+                    "Se encontrar qualquer dificuldade, não hesite em contatar nosso Núcleo de Informação:\n"
+                    "📧 nucleo.informacao@fhemig.mg.gov.br\n\n"
 
-                Lembre-se, explorar diferentes indicadores pode oferecer insights valiosos sobre o desempenho da sua unidade!
+                    "Lembre-se, explorar diferentes indicadores pode oferecer insights valiosos sobre o desempenho da sua unidade!\n\n"
 
-                O que você gostaria de fazer agora?
+                    "O que você gostaria de fazer agora?\n\n"
 
-                1️⃣ Solicitar informações sobre outro indicador
-                2️⃣ Entrar em contato diretamente com o Núcleo de Informação
-                3️⃣ Encerrar nossa conversa
+                    "1️⃣ Solicitar informações sobre outro indicador\n"
+                    "2️⃣ Entrar em contato diretamente com o Núcleo de Informação\n"
+                    "3️⃣ Encerrar nossa conversa\n\n"
 
-                Por favor, digite o número da sua escolha (1-3)."""               
+                    "Por favor, digite o número da sua escolha (1-3)."
+         
                 )
             
         return {
@@ -109,47 +110,47 @@ class InformationHandler:
 
             
             indicator_name = indicator_map[indicator]
-            message = (f"""Entendi! 📊 Vamos acessar o indicador **{indicator_name}** para a unidade **{unit}** usando o Fhemig em Números.
+            message = (f"Entendi! 📊 Vamos acessar o indicador **{indicator_name}** para a unidade **{unit}** usando o Fhemig em Números.\n\n"
 
-                        Esta ferramenta poderosa permite uma análise detalhada dos dados. Siga estas instruções passo a passo para obter as informações que você precisa:
+                        "Esta ferramenta poderosa permite uma análise detalhada dos dados. Siga estas instruções passo a passo para obter as informações que você precisa:\n\n"
 
-                        🔹 Acesso e Configuração Inicial:
-                        1. Acesse o **[Fhemig em Números]({url_fhemig_numeros})**
-                        2. Clique em 'Create a new query'
-                        3. Selecione o cubo 'Atendimentos'
-                        4. Selecione o indicador '{indicator_name}'
+                        "🔹 **Acesso e Configuração Inicial:**\n"
+                        f"1. Acesse o **[Fhemig em Números]({url_fhemig_numeros})**\n"
+                        "2. Clique em 'Create a new query'\n"
+                        "3. Selecione o cubo 'Atendimentos'\n"
+                        f"4. Selecione o indicador **'{indicator_name}'**\n\n"
 
-                        🔹 Configuração de Datas:
-                        5. Clique no campo 'Datas'
-                        6. Arraste o campo 'Mês' para o espaço 'Colunas' na tela principal
-                        7. Arraste também o campo 'Ano'
-                        8. Na área 'Colunas', clique duas vezes em 'Ano'
-                        9. Escolha os anos desejados
-                        10. Clique em '>'
-                        11. Clique em 'OK'
+                        "🔹 **Configuração de Datas:**\n"
+                        "5. Clique no campo 'Datas'\n"
+                        "6. Arraste o campo 'Mês' para o espaço 'Colunas' na tela principal\n"
+                        "7. Arraste também o campo 'Ano'\n"
+                        "8. Na área 'Colunas', clique duas vezes em 'Ano'\n"
+                        "9. Escolha os anos desejados\n"
+                        "10. Clique em '>'\n"
+                        "11. Clique em 'OK'\n\n"
 
-                        🔹 Seleção da Unidade:
-                        12. No canto inferior esquerdo, clique na setinha do campo 'Hospitais'
-                        13. Arraste o campo 'Hospitais' para a área 'Linhas'
-                        14. Clique duas vezes em 'Hospital' para abrir o filtro
-                        15. Selecione '{unit}'
-                        16. Clique em '>'
-                        17. Finalize clicando em 'OK'
+                        "🔹 **Seleção da Unidade:**\n"
+                        "12. No canto inferior esquerdo, clique na setinha do campo 'Hospitais'\n"
+                        "13. Arraste o campo 'Hospitais' para a área 'Linhas'\n"
+                        "14. Clique duas vezes em 'Hospital' para abrir o filtro\n"
+                        f"15. Selecione **'{unit}'**\n"
+                        "16. Clique em '>'\n"
+                        "17. Finalize clicando em 'OK'\n\n"
 
-                        💡 Dica: Para uma visualização mais clara, você pode ajustar a ordem das colunas e linhas conforme sua preferência.
+                        "💡 **Dica:** Para uma visualização mais clara, você pode ajustar a ordem das colunas e linhas conforme sua preferência.\n\n"
 
-                        📹 Tutorial Visual:
-                        Para uma demonstração prática, confira o vídeo tutorial abaixo. Ele mostra como obter o indicador 'Taxa de Ocupação Hospitalar' como exemplo, mas o processo é similar para outros indicadores.
+                        "📹 **Tutorial Visual:**\n"
+                        "Para uma demonstração prática, confira o vídeo tutorial abaixo. Ele mostra como obter o indicador 'Taxa de Ocupação Hospitalar' como exemplo, mas o processo é similar para outros indicadores.\n\n"
+                        "[Inserir link do vídeo aqui]\n\n"
 
-                        [Inserir link do vídeo aqui]
+                        "Precisa de mais alguma orientação ou gostaria de explorar outro indicador? Estou aqui para ajudar! 😊\n\n"
 
-                        Precisa de mais alguma orientação ou gostaria de explorar outro indicador? Estou aqui para ajudar! 😊
+                        "1️⃣ Solicitar informações sobre outro indicador\n"
+                        "2️⃣ Tirar dúvidas sobre o Fhemig em Números\n"
+                        "3️⃣ Encerrar nossa conversa\n\n"
 
-                        1️⃣ Solicitar informações sobre outro indicador
-                        2️⃣ Tirar dúvidas sobre o Fhemig em Números
-                        3️⃣ Encerrar nossa conversa
+                        "Por favor, digite o número da sua escolha (1-3)."
 
-                        Por favor, digite o número da sua escolha (1-3)."""
                                 )       
             
             return {
@@ -170,40 +171,40 @@ class InformationHandler:
 
         url_pentaho = "url"
         ## IDEIA - funcionalidade para solicitar automaticamente o acesso ao Pentaho
-        message = (f"""🏥 Informações Detalhadas sobre {unit} 📊
+        message = (f"🏥 **Informações Detalhadas sobre {unit}** 📊\n\n"
 
-                    Para acessar um conjunto abrangente de relatórios e dados sobre a **{unit}**, utilize nossa ferramenta de gerenciamento de relatórios, o **Pentaho**.
+                    "Para acessar um conjunto abrangente de relatórios e dados sobre a **{unit}**, utilize nossa ferramenta de gerenciamento de relatórios, o **Pentaho**.\n\n"
 
-                    🔐 Acesso ao Pentaho:
+                    "🔐 **Acesso ao Pentaho:**\n\n"
 
-                    Já possui login e senha?
-                    1. Visite o [Pentaho]({url_pentaho})
-                    2. Clique em 'Login'
-                    3. Digite seu login e senha
-                    4. Clique em 'Entrar'
+                    "Já possui login e senha?\n"
+                    f"1. Visite o **[Pentaho]({url_pentaho})**\n"
+                    "2. Clique em 'Login'\n"
+                    "3. Digite seu login e senha\n"
+                    "4. Clique em 'Entrar'\n\n"
 
-                    🆕 Precisa de acesso?
+                    "🆕 **Precisa de acesso?**\n\n"
 
-                    Se você ainda não tem acesso ao Pentaho, siga estas etapas:
+                    "Se você ainda não tem acesso ao Pentaho, siga estas etapas:\n\n"
+                    "1. Envie um e-mail para: **nucleo.informacao@fhemig.mg.gov.br**\n"
+                    "2. Assunto: \"Solicitação de Acesso ao Pentaho\"\n"
+                    "3. No corpo do e-mail, inclua:\n"
+                    "   • Nome completo\n"
+                    f"  • Unidade: **{unit}**\n"
+                    "   • Setor em que trabalha\n\n"
 
-                    1. Envie um e-mail para: nucleo.informacao@fhemig.mg.gov.br
-                    2. Assunto: "Solicitação de Acesso ao Pentaho"
-                    3. No corpo do e-mail, inclua:
-                    • Nome completo
-                    • Unidade: {unit}
-                    • Setor em que trabalha
+                    "Nossa equipe do Núcleo de Informação processará sua solicitação o mais rápido possível.\n\n"
 
-                    Nossa equipe do Núcleo de Informação processará sua solicitação o mais rápido possível.
+                    "💡 **Dica:** O Pentaho oferece uma variedade de relatórios personalizáveis.\n\n"
 
-                    💡 Dica: O Pentaho oferece uma variedade de relatórios personalizáveis. 
+                    "Precisa de mais alguma orientação?\n\n"
 
-                    Precisa de mais alguma orientação?
+                    "1️⃣ Saiba mais sobre os tipos de relatórios disponíveis no Pentaho\n"
+                    "2️⃣ Solicitar ajuda com outra ferramenta ou indicador\n"
+                    "3️⃣ Encerrar nossa conversa\n\n"
 
-                    1️⃣ Saiba mais sobre os tipos de relatórios disponíveis no Pentaho
-                    2️⃣ Solicitar ajuda com outra ferramenta ou indicador
-                    3️⃣ Encerrar nossa conversa
+                    "Digite o número da sua escolha (1-3)."
 
-                    Digite o número da sua escolha (1-3)."""
                    
                    )
 
@@ -224,44 +225,44 @@ class InformationHandler:
         :return: Dicionário contendo a resposta formatada.
         """
 
-        message = (f"""📊 Acessando Relatórios do Tasy para {unit} 🏥
+        message = (f"📊 **Acessando Relatórios do Tasy para {unit}** 🏥\n\n"
 
-                    Você pode obter informações detalhadas sobre a **{unit}** através do módulo de relatórios do sistema {system}. Siga este guia passo a passo para acessar os relatórios do Tasy:
+                    "Você pode obter informações detalhadas sobre a **{unit}** através do módulo de relatórios do sistema {system}. Siga este guia passo a passo para acessar os relatórios do Tasy:\n\n"
 
-                    🔍 Localizando os Relatórios:
-                    1. Na tela inicial do Tasy, clique na aba 'Utilitários'
-                    2. Selecione 'Impressão de Relatórios'
-                    3. Na nova janela, digite **FHEMIG - NI** no campo 'título'
-                    4. Clique em 'Filtrar'
+                    "🔍 **Localizando os Relatórios:**\n"
+                    "1. Na tela inicial do Tasy, clique na aba 'Utilitários'\n"
+                    "2. Selecione 'Impressão de Relatórios'\n"
+                    "3. Na nova janela, digite **FHEMIG - NI** no campo 'título'\n"
+                    "4. Clique em 'Filtrar'\n\n"
 
-                    📄 Selecionando e Exportando o Relatório:
-                    5. Na janela à direita, dê um duplo clique no relatório desejado
-                    6. Preencha os campos solicitados
-                    7. Clique em 'Exportar XLS'
-                    8. Na próxima tela, clique em 'Continuar'
+                    "📄 **Selecionando e Exportando o Relatório:**\n"
+                    "5. Na janela à direita, dê um duplo clique no relatório desejado\n"
+                    "6. Preencha os campos solicitados\n"
+                    "7. Clique em 'Exportar XLS'\n"
+                    "8. Na próxima tela, clique em 'Continuar'\n\n"
 
-                    💾 Baixando o Relatório:
-                    9. O download iniciará no canto superior direito
-                    10. Clique em 'Manter' após o início do download
-                    11. O arquivo será salvo na pasta de downloads do seu computador
+                    "💾 **Baixando o Relatório:**\n"
+                    "9. O download iniciará no canto superior direito\n"
+                    "10. Clique em 'Manter' após o início do download\n"
+                    "11. O arquivo será salvo na pasta de downloads do seu computador\n\n"
 
-                    ⚠️ Observações Importantes:
-                    • Use apenas relatórios com título 'FHEMIG - NI' (validados pelo Núcleo de Informação)
-                    • Verifique a estrutura e os dados do relatório baixado
-                    • Informe no histórico da ordem de serviço se são necessários ajustes ou se o relatório está aprovado
+                    "⚠️ **Observações Importantes:**\n"
+                    "• Use apenas relatórios com título **'FHEMIG - NI'** (validados pelo Núcleo de Informação)\n"
+                    "• Verifique a estrutura e os dados do relatório baixado\n"
+                    "• Informe no histórico da ordem de serviço se são necessários ajustes ou se o relatório está aprovado\n\n"
 
-                    ❓ Não encontrou o relatório necessário?
-                    Entre em contato com a referência de informação da sua unidade para solicitar a criação de um novo relatório.
+                    "❓ **Não encontrou o relatório necessário?**\n"
+                    "Entre em contato com a referência de informação da sua unidade para solicitar a criação de um novo relatório.\n\n"
 
-                    💡 Dica: Familiarize-se com os relatórios disponíveis. Isso pode ajudar a identificar oportunidades de melhoria e tomada de decisões baseadas em dados!
+                    "💡 **Dica:** Familiarize-se com os relatórios disponíveis. Isso pode ajudar a identificar oportunidades de melhoria e tomada de decisões baseadas em dados!\n\n"
 
-                    Precisa de mais alguma orientação?
+                    "Precisa de mais alguma orientação?\n\n"
 
-                    1️⃣ Tirar dúvidas sobre os relatórios do Tasy
-                    2️⃣ Solicitar informações sobre outro sistema ou indicador
-                    3️⃣ Encerrar nossa conversa
+                    "1️⃣ Tirar dúvidas sobre os relatórios do Tasy\n"
+                    "2️⃣ Solicitar informações sobre outro sistema ou indicador\n"
+                    "3️⃣ Encerrar nossa conversa\n\n"
 
-                    Digite o número da sua escolha (1-3).""")
+                    "Digite o número da sua escolha (1-3).")
 
         
         return {
@@ -273,21 +274,20 @@ class InformationHandler:
 
 
     def handle_feedback(self) -> Dict[str, Any]:
-        message = (f"""Claro! 📬 Estou pronto para ajudar você a entrar em contato com o Núcleo de Informação.
+        message = (f"Claro! 📬 Estou pronto para ajudar você a entrar em contato com o Núcleo de Informação.\n\n"
 
-                    Por favor, digite sua mensagem abaixo. Procure incluir:
+                    "**Por favor, digite sua mensagem abaixo. Procure incluir:**\n\n"
+                    "• Uma descrição clara da sua solicitação ou dúvida\n"
+                    "• Detalhes relevantes (por exemplo, unidade, sistema ou indicador específico)\n"
+                    "• Qualquer prazo ou urgência, se aplicável\n\n"
 
-                    • Uma descrição clara da sua solicitação ou dúvida
-                    • Detalhes relevantes (por exemplo, unidade, sistema ou indicador específico)
-                    • Qualquer prazo ou urgência, se aplicável
+                    "Sua mensagem será encaminhada diretamente ao Núcleo de Informação. Eles analisarão sua solicitação e entrarão em contato o mais breve possível.\n\n"
 
-                    Sua mensagem será encaminhada diretamente ao Núcleo de Informação. Eles analisarão sua solicitação e entrarão em contato o mais breve possível.
+                    "💡 **Dica:** Quanto mais detalhada for sua mensagem, mais rápido e eficiente será o atendimento!\n\n"
 
-                    💡 Dica: Quanto mais detalhada for sua mensagem, mais rápido e eficiente será o atendimento!
+                    "Assim que terminar de digitar sua mensagem, envie-a e eu confirmarei o encaminhamento.\n\n"
 
-                    Assim que terminar de digitar sua mensagem, envie-a e eu confirmarei o encaminhamento.
-
-                    Pronto para começar? Digite sua mensagem agora:""")
+                    "**Pronto para começar? Digite sua mensagem agora:**")
         
         return {
                 "success": True,
