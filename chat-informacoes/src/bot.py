@@ -62,6 +62,8 @@ class FhemigChatbot:
                 })
                 self.send_response(message, response['message'])
                 print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
+            else:
+                self.send_response(message, response['message'])
         
         # Lógica para o estado após a seleção da unidade
         elif current_state == 'unit_selected':
@@ -90,6 +92,8 @@ class FhemigChatbot:
                     response = self.information_handler.handle_tasy(unit = self.user_states[sender_id]['unit'], system=self.user_states[sender_id]['system'])                 
                     self.user_states[sender_id]['state'] = 'feedback'
                     print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
+            else:
+                response = "Opção inválida, por favor, selecione uma das opções apresentadas."
             self.send_response(message, response['message'] if isinstance(response, dict) else response)
 
 
@@ -101,12 +105,13 @@ class FhemigChatbot:
                 self.send_response(message, self.unit_handler.get_initial_message(nome_usuario=sender_full_name))
                 return
             elif content == '2':
-                # Usuário deseja encerrar
+                # Usuário deseja mandar mensagem
                 response = self.information_handler.handle_feedback()
                 self.user_states[sender_id] = {'state': 'feedback_ni'}
+                self.send_response(message, response["message"])
             elif content == '3':
                 # Usuário deseja encerrar
-                response = (f"Obrigado por utilizar o Assistente Virtual da Fhemig! 👋\n\n"
+                response= (f"Obrigado por utilizar o Assistente Virtual da Fhemig! 👋\n\n"
 
                             "Foi um prazer ajudar você hoje com informações e orientações sobre nossos sistemas e indicadores. Espero que nossa interação tenha sido útil e esclarecedora.\n\n"
 
@@ -123,12 +128,18 @@ class FhemigChatbot:
                             "Desejo um excelente dia e sucesso em suas atividades na Fhemig! 🏥📊\n\n"
 
                             "**Até a próxima!**")
+                
+                self.send_response(message, response)
+                
+
+
                 self.user_states = {}
+                
 
             else:
                 # Mensagem de erro para entrada inválida
                 response = "Opção inválida."
-            self.send_response(message, response["message"])
+           # self.send_response(message, response["message"])
 
         elif current_state == 'feedback_ni':
             self.send_ni(original_message=message, response_content=content)
@@ -153,7 +164,7 @@ class FhemigChatbot:
                         )
             self.user_states[sender_id] = {'state': 'feedback'}
             self.send_response(message, response)
-            pass
+            
 
     def send_response(self, original_message: Dict[str, Any], response_content: str) -> None:
         """
