@@ -40,8 +40,22 @@ class UnitHandler:
         """
         unit_list = "\n".join([f"{i+1}. {unit['name']}" for i, unit in enumerate(self.units)])
         return (
-            f"Olá, {nome_usuario}! Para eu te ajudar, vamos primeiro selecionar sua unidade. "
-            f"Escolha na lista abaixo, o número da sua unidade:\n\n{unit_list}"
+            f"""Olá, {nome_usuario}! 👋 Bem-vindo(a) ao Assistente Virtual da Fhemig!
+
+            Estou aqui para facilitar seu acesso às informações cruciais para seu dia a dia
+            de trabalho. 
+            Vamos começar nossa jornada selecionando a sua unidade de trabalho.
+
+            Por favor, escolha o número correspondente à sua unidade na lista abaixo:
+
+            {unit_list}
+
+            Após a seleção, poderei te ajudar com:
+            • Consulta de indicadores específicos da sua unidade
+            • Acesso a relatórios e informações do sistema de gestão hospitalar
+            • Esclarecimento de dúvidas sobre os dados disponíveis
+
+            Estou animado para auxiliar você! Vamos lá, qual é o número da sua unidade? 😊"""
         )
 
     def handle(self, user_input: str) -> Dict[str, Any]:
@@ -73,26 +87,31 @@ class UnitHandler:
             "selected_unit": unit['name'],
             "system": unit['system'],
             "message": (
-                f"Ótimo! Você selecionou a unidade {unit['name']}. "
-                f"Esta unidade utiliza o sistema {unit['system']}. "
-                "Qual informação você deseja obter?	\n\n"
-                "1: Taxa de Ocupação Hospitalar\n"
-                "2: Tempo Médio de Permanência\n"
-                "3: Número de Internações\n"
-                "4: Número de Cirurgias\n"
-                "5: Número de Doadores Efetivos\n"
-                "6: Pacientes Dia\n"
-                "7: Saídas Hospitalares\n"
-                "8: Óbitos Hospitalares\n"
-                "9: Óbitos Institucionais\n"
-                "10: Leitos Dia\n"
-                "11: Consultas Médicas Eletivas\n"
-                "12: Consultas Médicas de Urgência\n"
-                "13: Saídas por Clínicas\n"
-                "13: Taxa de Mortalidade Hospitalar Geral (%)\n"
-                "14: Taxa de Mortalidade Institucional (%)\n"
-                "15: Índice de Renovação de Leitos\n"
-                "16: Outros"
+
+                f"""Obrigado!
+                
+                Você selecionou a unidade {unit['name']}, que utiliza o sistema {unit['system']}.
+
+                Agora, vamos acessar as informações mais relevantes para você.
+
+                Por favor, selecione o número correspondente ao indicador que você deseja consultar:
+
+                1️⃣ Taxa de Ocupação Hospitalar
+                2️⃣ Tempo Médio de Permanência
+                3️⃣ Número de Internações
+                4️⃣ Número de Cirurgias
+                5️⃣ Número de Doadores Efetivos
+                6️⃣ Outros
+
+                Digite apenas o número da sua escolha (1-6).
+
+                Após sua seleção, lhe informarei como acessar essa informação nas fontes oficiais da Fhemig. 
+                
+                Se você precisar de informações não listadas aqui, a 
+                opção "Outros" está disponível para atender às suas necessidades específicas.
+
+                Estou aqui para ajudar! Qual informação você precisa? 📊"""
+
             )
         }
 

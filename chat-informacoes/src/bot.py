@@ -106,7 +106,23 @@ class FhemigChatbot:
                 self.user_states[sender_id] = {'state': 'feedback_ni'}
             elif content == '3':
                 # Usuário deseja encerrar
-                response = "Obrigado por usar o Fhemig Chatbot!"
+                response = f"""Obrigado por utilizar o Assistente Virtual da Fhemig! 👋
+
+                                Foi um prazer ajudar você hoje com informações e orientações sobre nossos sistemas e indicadores. Espero que nossa interação tenha sido útil e esclarecedora.
+
+                                🔑 Pontos-chave para lembrar:
+                                • O Painel Fhemig do Futuro está sempre disponível para consultas rápidas
+                                • O Fhemig em Números oferece análises detalhadas e personalizáveis
+                                • Os sistemas de gestão hospitalares contém relatórios importantes
+                                • O Núcleo de Informação está à disposição para dúvidas mais complexas
+
+                                💡 Dica: Mantenha-se atualizado sobre novos recursos e relatórios. Eles são frequentemente adicionados para melhorar nossa gestão de informações!
+
+                                Se surgir qualquer dúvida adicional, não hesite em iniciar uma nova conversa. Estou aqui 24/7 para auxiliar você em suas necessidades de informação.
+
+                                Desejo um excelente dia e sucesso em suas atividades na Fhemig! 🏥📊
+
+                                Até a próxima!"""
                 self.user_states = {}
 
             else:
@@ -116,11 +132,25 @@ class FhemigChatbot:
 
         elif current_state == 'feedback_ni':
             self.send_ni(original_message=message, response_content=content)
-            response = ("Sua mensagem foi enviada ao Núcleo de Informação! Em breve alguém irá entrar em contato!\n"
-                        "O que deseja fazer?\n"
-                        "1. Solicitar outra informação\n"
-                        "2. Solicitar ajuda ao Núcleo de Informação diretamente\n"
-                        "3. Encerrar conversa")
+            response = (f"""✅ Ótimo, {message['sender_full_name']}! 
+                        Sua mensagem foi enviada com sucesso ao Núcleo de Informação.
+
+                            📬 Confirmação:
+                            • Destinatário: Núcleo de Informação
+                            • Status: Enviado
+                            • Prazo de resposta estimado: Em breve
+
+                            Fique tranquilo(a), um membro da equipe analisará sua solicitação e entrará em contato o mais rápido possível. Enquanto isso, há algo mais em que eu possa ajudar?
+
+                            Escolha uma das opções abaixo:
+
+                            1️⃣ Solicitar informações sobre outro tópico
+                            2️⃣ Enviar uma nova mensagem ao Núcleo de Informação
+                            3️⃣ Encerrar nossa conversa
+
+                            💡 Dica: Se lembrar de algum detalhe adicional importante, você pode escolher a opção 2 para enviar uma nova mensagem complementar.
+
+                            Por favor, digite o número da sua escolha (1-3):""")
             self.user_states[sender_id] = {'state': 'feedback'}
             self.send_response(message, response)
             pass
@@ -143,7 +173,7 @@ class FhemigChatbot:
         self.client.send_message({
             "type": original_message["type"],
             "to": "user75@fhchat.expressomg.mg.gov.br", ## ID GRUPO NI
-            "content": response_content,
+            "content": f"Mensagem de {original_message['sender_full_name']}: {response_content}",
         })
 
     def run(self) -> None:
