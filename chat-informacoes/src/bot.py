@@ -40,12 +40,13 @@ class FhemigChatbot:
         content = message['content']
         sender_id = message['sender_id']
         sender_full_name = message['sender_full_name']
-        print(f"O ID DO USUÁRIO É: {sender_id}, o e-mail é {message["sender_email"]}")
         
         # Inicializa o estado do usuário se for a primeira interação
         if sender_id not in self.user_states:
             self.user_states[sender_id] = {'state': 'initial'}
+            print("CONVERSA INICIALIZADA, AGUARDANDO RESPOSTA INICIAL. STATE: INITIAL")
             self.send_response(message, self.unit_handler.get_initial_message(nome_usuario=sender_full_name))
+            
             return
 
         # Associa o id especifico ao state
@@ -53,18 +54,20 @@ class FhemigChatbot:
 
         # Lógica para o estado inicial (seleção de unidade)
         if current_state == 'initial':
-            response = self.unit_handler.handle(content) ## Associa unidade e sistema, e pede a informação demandada
+            response = self.unit_handler.handle(content)
             if response['success']: ## Response é sempre o return das funções
+                print("UNIDADE SELECIONADA")
                 self.user_states[sender_id].update({
                     'state': 'unit_selected',
                     'unit': response['selected_unit'],
                     'system': response['system']
                 })
+                print(f"Unidade selecionada: {response['selected_unit']}, Estado atual: {current_state}, Entrada do usuário: {content}")
+                print("SOLICITA INFORMAÇÃO")
                 self.send_response(message, response['message'])
-                print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
+                print(f"INFORMAÇÃO SELECIONADA: Estado atual: {current_state}, Entrada do usuário: {content}")
             else:
                 self.send_response(message, response['message'])
-                response = self.unit_handler.handle(content)
         
         # Lógica para o estado após a seleção da unidade
         elif current_state == 'unit_selected':
@@ -90,9 +93,9 @@ class FhemigChatbot:
                     self.user_states[sender_id]['state'] = 'feedback'
                     print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
                 elif self.user_states[sender_id]['system'] == 'TASY': ##TODO: relatorios tasy
+                    print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
                     response = self.information_handler.handle_tasy(unit = self.user_states[sender_id]['unit'], system=self.user_states[sender_id]['system'])                 
                     self.user_states[sender_id]['state'] = 'feedback'
-                    print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
             else:
                 response = "Opção inválida, por favor, selecione uma das opções apresentadas."
                 print(f"Estado atual: {current_state}, Entrada do usuário: {content}")

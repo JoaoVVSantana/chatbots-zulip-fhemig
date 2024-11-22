@@ -67,15 +67,9 @@ class UnitHandler:
         :param user_input: Entrada do usuário (número da unidade).
         :return: Dicionário contendo o resultado do processamento.
         """
-        if user_input.isdigit():
-            index = int(user_input) - 1
-            print(f"User input: {user_input}, Calculated index: {index}")
-            if 0 <= index < len(self.units):
-                selected_unit = self.units[index]
-                print(f"Selected unit: {selected_unit}")
-                return self.create_success_response(selected_unit)
-            else:
-                return self.create_error_response()
+        if user_input in [str(i) for i in range(1, 19)]:
+            selected_unit = self.units[int(user_input) - 1]
+            return self.create_success_response(selected_unit)
         else:
             return self.create_error_response()
 
