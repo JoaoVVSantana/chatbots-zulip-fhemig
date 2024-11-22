@@ -119,7 +119,7 @@ class UnitHandler:
                 "1️⃣6️⃣ Índice de Renovação de Leitos\n"
                 "1️⃣7️⃣ Outros\n\n"
 
-                "Digite apenas o número da sua escolha (1-6).\n\n"
+                "Digite apenas o número da sua escolha (1-17).\n\n"
 
                 "Após sua seleção, lhe informarei como acessar essa informação nas fontes oficiais da Fhemig.\n\n"
                             

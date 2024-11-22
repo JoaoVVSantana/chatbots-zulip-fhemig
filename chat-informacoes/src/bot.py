@@ -64,6 +64,7 @@ class FhemigChatbot:
                 print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
             else:
                 self.send_response(message, response['message'])
+                response = self.unit_handler.handle(content)
         
         # Lógica para o estado após a seleção da unidade
         elif current_state == 'unit_selected':
@@ -73,7 +74,7 @@ class FhemigChatbot:
                 self.user_states[sender_id]['state'] = 'feedback' ## Estado de feedback
                 print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
                 ## TODO: MENSAGEM FEEDBACK
-            elif content in ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15']:
+            elif content in ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16']:
                 # Opção para buscar outras informações ## Aqui entra a lógica if SIGH (fhemig em numeros -> pentaho)| TASY
                 if self.user_states[sender_id]['system'] == 'SIGH': ## Informações Fhemig em Números
                     response = self.information_handler.handle_fhemig_em_numeros(indicator = content, unit = self.user_states[sender_id]['unit'])                 
@@ -83,7 +84,7 @@ class FhemigChatbot:
                     response = self.information_handler.handle_tasy(unit = self.user_states[sender_id]['unit'], system=self.user_states[sender_id]['system'])                 
                     self.user_states[sender_id]['state'] = 'feedback'
                     print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
-            elif content in ['16']: ## Outras informações
+            elif content == '17': ## Outras informações
                 if self.user_states[sender_id]['system'] == 'SIGH': ## Pentaho
                     response = self.information_handler.handle_pentaho(unit = self.user_states[sender_id]['unit'], system=self.user_states[sender_id]['system'])                 
                     self.user_states[sender_id]['state'] = 'feedback'
@@ -94,7 +95,10 @@ class FhemigChatbot:
                     print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
             else:
                 response = "Opção inválida, por favor, selecione uma das opções apresentadas."
+                print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
             self.send_response(message, response['message'] if isinstance(response, dict) else response)
+            
+
 
 
         # Lógica para feedback e continuação ou encerramento da conversa
@@ -137,9 +141,9 @@ class FhemigChatbot:
                 
 
             else:
-                # Mensagem de erro para entrada inválida
-                response = "Opção inválida."
-           # self.send_response(message, response["message"])
+                response = "Opção inválida, por favor, selecione uma das opções apresentadas."
+                print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
+            self.send_response(message, response['message'] if isinstance(response, dict) else response)
 
         elif current_state == 'feedback_ni':
             self.send_ni(original_message=message, response_content=content)

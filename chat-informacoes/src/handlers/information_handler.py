@@ -173,7 +173,7 @@ class InformationHandler:
         ## IDEIA - funcionalidade para solicitar automaticamente o acesso ao Pentaho
         message = (f"🏥 **Informações Detalhadas sobre {unit}** 📊\n\n"
 
-                    "Para acessar um conjunto abrangente de relatórios e dados sobre a **{unit}**, utilize nossa ferramenta de gerenciamento de relatórios, o **Pentaho**.\n\n"
+                    f"Para acessar um conjunto abrangente de relatórios e dados sobre a **{unit}**, utilize nossa ferramenta de gerenciamento de relatórios, o **Pentaho**.\n\n"
 
                     "🔐 **Acesso ao Pentaho:**\n\n"
 
@@ -227,7 +227,7 @@ class InformationHandler:
 
         message = (f"📊 **Acessando Relatórios do Tasy para {unit}** 🏥\n\n"
 
-                    "Você pode obter informações detalhadas sobre a **{unit}** através do módulo de relatórios do sistema {system}. Siga este guia passo a passo para acessar os relatórios do Tasy:\n\n"
+                    f"Você pode obter informações detalhadas sobre a **{unit}** através do módulo de relatórios do sistema {system}. Siga este guia passo a passo para acessar os relatórios do Tasy:\n\n"
 
                     "🔍 **Localizando os Relatórios:**\n"
                     "1. Na tela inicial do Tasy, clique na aba 'Utilitários'\n"
