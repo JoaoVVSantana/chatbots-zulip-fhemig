@@ -2,9 +2,9 @@ import os
 import zulip
 from dotenv import load_dotenv
 from typing import Dict, Any
-from handlers.unit_handler import UnitHandler
-from handlers.information_handler import InformationHandler
-from handlers.feedback_handler import FeedbackHandler
+from src.handlers.unit_handler import UnitHandler
+from src.handlers.information_handler import InformationHandler
+from src.handlers.feedback_handler import FeedbackHandler
 import asyncio
 
 class FhemigChatbot:
@@ -19,7 +19,7 @@ class FhemigChatbot:
         # Carrega variáveis de ambiente
         load_dotenv()
         # Inicializa o cliente Zulip
-        self.client = zulip.AsyncClient(config_file="chat-informacoes\\zuliprc")
+        self.client = zulip.Client(config_file="chat-informacoes\\zuliprc")
         # Inicializa os handlers para diferentes funcionalidades
         self.unit_handler = UnitHandler('chat-informacoes\\data\\units.json')
         self.information_handler = InformationHandler(

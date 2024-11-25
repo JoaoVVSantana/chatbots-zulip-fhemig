@@ -3,6 +3,7 @@ import sys
 import logging
 from dotenv import load_dotenv
 from src.bot import FhemigChatbot
+import asyncio
 
 # Configuração de logging
 def setup_logging():
@@ -18,16 +19,6 @@ def setup_logging():
         ]
     )
     return logging.getLogger(__name__)
-
-# Carregamento de variáveis de ambiente
-    """
-    Carrega as variáveis de ambiente necessárias para o chatbot.
-    """
-    load_dotenv()
-    required_vars = ['ZULIP_EMAIL', 'ZULIP_API_KEY', 'ZULIP_SITE']
-    for var in required_vars:
-        if not os.getenv(var):
-            raise EnvironmentError(f"Variável de ambiente {var} não encontrada. Por favor, configure o arquivo .env")
 
 async def main():
     """
@@ -55,6 +46,5 @@ async def main():
         sys.exit(1)
 
 if __name__ == "__main__":
-    main()
-    
+    asyncio.run(main())
 
