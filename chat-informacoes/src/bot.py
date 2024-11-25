@@ -2,9 +2,10 @@ import os
 import zulip
 from dotenv import load_dotenv
 from typing import Dict, Any
-from src.handlers.unit_handler import UnitHandler
-from src.handlers.information_handler import InformationHandler
-from src.handlers.feedback_handler import FeedbackHandler
+from handlers.unit_handler import UnitHandler
+from handlers.information_handler import InformationHandler
+from handlers.feedback_handler import FeedbackHandler
+import asyncio
 
 class FhemigChatbot:
     """
@@ -18,7 +19,7 @@ class FhemigChatbot:
         # Carrega variáveis de ambiente
         load_dotenv()
         # Inicializa o cliente Zulip
-        self.client = zulip.Client(config_file="chat-informacoes\\zuliprc")
+        self.client = zulip.AsyncClient(config_file="chat-informacoes\\zuliprc")
         # Inicializa os handlers para diferentes funcionalidades
         self.unit_handler = UnitHandler('chat-informacoes\\data\\units.json')
         self.information_handler = InformationHandler(
@@ -31,7 +32,7 @@ class FhemigChatbot:
         # Dicionário para armazenar o estado da conversa de cada usuário
         self.user_states = {}
 
-    def handle_message(self, message: Dict[str, Any]) -> None:
+    async def handle_message(self, message: Dict[str, Any]) -> None:
         """
         Processa cada mensagem recebida e gerencia o fluxo da conversa.
         
@@ -45,7 +46,7 @@ class FhemigChatbot:
         if sender_id not in self.user_states:
             self.user_states[sender_id] = {'state': 'initial'}
             print("CONVERSA INICIALIZADA, AGUARDANDO RESPOSTA INICIAL. STATE: INITIAL")
-            self.send_response(message, self.unit_handler.get_initial_message(nome_usuario=sender_full_name))
+            await self.send_response(message, self.unit_handler.get_initial_message(nome_usuario=sender_full_name))
             
             return
 
@@ -173,14 +174,14 @@ class FhemigChatbot:
             self.send_response(message, response)
             
 
-    def send_response(self, original_message: Dict[str, Any], response_content: str) -> None:
+    async def send_response(self, original_message: Dict[str, Any], response_content: str) -> None:
         """
         Envia uma resposta para o usuário através do Zulip.
         
         :param original_message: Mensagem original recebida
         :param response_content: Conteúdo da resposta a ser enviada
         """
-        self.client.send_message({
+        await self.client.send_message({
             "type": original_message["type"],
             "to": original_message["sender_email"],
             "content": response_content,
@@ -194,14 +195,14 @@ class FhemigChatbot:
             "content": f"Mensagem de {original_message['sender_full_name']}: {response_content}",
         })
 
-    def run(self) -> None:
+    async def run(self) -> None:
         """
         Inicia o bot e configura o processamento contínuo de mensagens.
         """
         print("Fhemig Chatbot está rodando. Pressione Ctrl-C para sair.")
-        self.client.call_on_each_message(self.handle_message)
+        await self.client.call_on_each_message(self.handle_message)
 
 if __name__ == "__main__":
     bot = FhemigChatbot()
     bot.run()
-
+    asyncio.run()

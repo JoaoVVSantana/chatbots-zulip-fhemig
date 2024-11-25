@@ -29,7 +29,7 @@ def setup_logging():
         if not os.getenv(var):
             raise EnvironmentError(f"Variável de ambiente {var} não encontrada. Por favor, configure o arquivo .env")
 
-def main():
+async def main():
     """
     Função principal que inicializa e executa o chatbot Fhemig.
     """
@@ -45,7 +45,7 @@ def main():
 
         # Executar o bot
         logger.info("Iniciando o loop principal do chatbot...")
-        bot.run()
+        await bot.run()
 
     except EnvironmentError as e:
         logger.error(f"Erro de configuração: {str(e)}")
@@ -56,5 +56,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+    
 
