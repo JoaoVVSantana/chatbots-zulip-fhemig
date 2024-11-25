@@ -1,10 +1,13 @@
 import os
+from threading import Thread
+import threading
 import zulip
 from dotenv import load_dotenv
 from typing import Dict, Any
-from src.handlers.unit_handler import UnitHandler
-from src.handlers.information_handler import InformationHandler
-from src.handlers.feedback_handler import FeedbackHandler
+from handlers.unit_handler import UnitHandler
+from handlers.information_handler import InformationHandler
+#from src.handlers.feedback_handler import FeedbackHandler
+from handlers.webhook_handler import WebhookHandler #Endpoint é /zulip-webhook
 
 class FhemigChatbot:
     """
@@ -27,10 +30,15 @@ class FhemigChatbot:
             'chat-informacoes\\data\\sigh_reports.json',
             'chat-informacoes\\data\\tasy_reports.json'
         )
-        self.feedback_handler = FeedbackHandler()
+        #self.feedback_handler = FeedbackHandler()
+        
+        # Inicializa o WebhookHandler e passa a instância do bot
+        self.webhook_handler = WebhookHandler(self)
+        
         # Dicionário para armazenar o estado da conversa de cada usuário
         self.user_states = {}
 
+    
     def handle_message(self, message: Dict[str, Any]) -> None:
         """
         Processa cada mensagem recebida e gerencia o fluxo da conversa.
@@ -194,14 +202,27 @@ class FhemigChatbot:
             "content": f"Mensagem de {original_message['sender_full_name']}: {response_content}",
         })
 
-    def run(self) -> None:
+    def run_bot(self):
         """
-        Inicia o bot e configura o processamento contínuo de mensagens.
+        Executa o loop principal do bot Zulip.
         """
         print("Fhemig Chatbot está rodando. Pressione Ctrl-C para sair.")
-        self.client.call_on_each_message(self.handle_message)
+        if self.client:
+            self.client.call_on_each_message(self.handle_message)
+
+
+    def run(self):
+        """
+        Inicia o bot e o webhook.
+        """
+        print("Iniciando o Chatbot e o Webhook...")
+        bot_thread = threading.Thread(target=self.run_bot)
+        bot_thread.daemon = True
+        bot_thread.start()
+        self.webhook_handler.app.run(port=5000)
+        
 
 if __name__ == "__main__":
     bot = FhemigChatbot()
+    
     bot.run()
-
