@@ -20,6 +20,11 @@ class FhemigChatbot:
         load_dotenv()
         # Inicializa o cliente Zulip
         self.client = zulip.Client(config_file="chat-informacoes\\zuliprc")
+        
+        print(self.client.base_url)
+        print(self.client.client_cert_key)
+        
+
         # Inicializa os handlers para diferentes funcionalidades
         self.unit_handler = UnitHandler('chat-informacoes\\data\\units.json')
         self.information_handler = InformationHandler(
@@ -187,9 +192,9 @@ class FhemigChatbot:
             "content": response_content,
         })
 
-    def send_ni(self, original_message, response_content: str) -> None:
+    async def send_ni(self, original_message, response_content: str) -> None:
         print(response_content)
-        self.client.send_message({
+        await self.client.send_message({
             "type": original_message["type"],
             "to": "user75@fhchat.expressomg.mg.gov.br", ## ID GRUPO NI
             "content": f"Mensagem de {original_message['sender_full_name']}: {response_content}",
@@ -203,6 +208,7 @@ class FhemigChatbot:
         await self.client.call_on_each_message(self.handle_message)
 
 if __name__ == "__main__":
+    asyncio.run()
     bot = FhemigChatbot()
     bot.run()
-    asyncio.run()
+    
