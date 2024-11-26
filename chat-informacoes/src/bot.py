@@ -202,23 +202,16 @@ class FhemigChatbot:
             "content": f"Mensagem de {original_message['sender_full_name']}: {response_content}",
         })
 
-    def run_bot(self):
+
+    
+
+    def run(self):
         """
         Executa o loop principal do bot Zulip.
         """
         print("Fhemig Chatbot está rodando. Pressione Ctrl-C para sair.")
         if self.client:
             self.client.call_on_each_message(self.handle_message)
-
-
-    def run(self):
-        """
-        Inicia o bot e o webhook.
-        """
-        print("Iniciando o Chatbot e o Webhook...")
-        bot_thread = threading.Thread(target=self.run_bot)
-        bot_thread.daemon = True
-        bot_thread.start()
         self.webhook_handler.app.run(port=5000)
         
 
