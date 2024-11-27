@@ -1,15 +1,15 @@
+from typing import Any, Dict
 from flask import Flask, abort, request, jsonify
 
 class WebhookHandler():
     """
     Classe responsável por gerenciar o endpoint do webhook e delegar o processamento para o bot.
     """
-    def __init__(self, bot):
+    def __init__(self):
         """
         Inicializa o WebhookHandler com o bot e configura as rotas do Flask.
         :param bot: Instância do bot que processará as mensagens.
         """
-        self.bot = bot  # Atribuir o bot
         self.app = Flask(__name__)
         self.setup_routes()
 
@@ -44,3 +44,15 @@ class WebhookHandler():
         except Exception as e:
             print(f"Erro ao processar o evento: {e}")
             return {"success": False, "message": "Erro ao processar a mensagem"}
+
+    def send_to_webhook(self, payload: Dict[str, Any]) -> None:
+        """
+        Método para enviar dados para o próprio webhook.
+        """
+        import requests
+
+        try:
+            response = requests.post("http://localhost:5000/zulip-webhook", json=payload)
+            print(f"Mensagem enviada ao webhook: {response.status_code} - {response.text}")
+        except Exception as e:
+            print(f"Erro ao enviar mensagem para o webhook: {e}")

@@ -4,7 +4,7 @@ import logging
 import threading
 from dotenv import load_dotenv
 from src.bot import FhemigChatbot
-
+from src.handlers.webhook_handler import WebhookHandler
 # Configuração de logging
 def setup_logging():
     """
@@ -43,7 +43,9 @@ def main():
          # Inicializar o chatbot
         bot = FhemigChatbot()
         logger.info("Chatbot Fhemig inicializado com sucesso.")
-
+        # Inicializa o WebhookHandler e passa a instância do bot
+        webhook_handler = WebhookHandler(bot)
+        webhook_handler.app.run(port=5000)
         # Executar o bot
         logger.info("Iniciando o loop principal do chatbot...")
         bot.run()

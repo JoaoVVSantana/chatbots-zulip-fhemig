@@ -32,8 +32,7 @@ class FhemigChatbot:
         )
         self.feedback_handler = FeedbackHandler()
         
-        # Inicializa o WebhookHandler e passa a instância do bot
-        self.webhook_handler = WebhookHandler(self)
+        
         
         # Dicionário para armazenar o estado da conversa de cada usuário
         self.user_states = {}
@@ -212,7 +211,7 @@ class FhemigChatbot:
         print("Fhemig Chatbot está rodando. Pressione Ctrl-C para sair.")
         if self.client:
             self.client.call_on_each_message(self.handle_message)
-        self.webhook_handler.app.run(port=5000)
+        
         
 
 if __name__ == "__main__":
