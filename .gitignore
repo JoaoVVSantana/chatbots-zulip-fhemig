@@ -11,7 +11,7 @@ env/
 data/
 venv/
 venv_chatbots/
-
+venv_bot/
 # Configuração de IDEs
 .vscode/
 .idea/

@@ -4,10 +4,10 @@ import threading
 import zulip
 from dotenv import load_dotenv
 from typing import Dict, Any
-from handlers.unit_handler import UnitHandler
-from handlers.information_handler import InformationHandler
-#from src.handlers.feedback_handler import FeedbackHandler
-from handlers.webhook_handler import WebhookHandler #Endpoint é /zulip-webhook
+from src.handlers.unit_handler import UnitHandler
+from src.handlers.information_handler import InformationHandler
+from src.handlers.feedback_handler import FeedbackHandler
+from src.handlers.webhook_handler import WebhookHandler #Endpoint é /zulip-webhook
 
 class FhemigChatbot:
     """
@@ -30,7 +30,7 @@ class FhemigChatbot:
             'chat-informacoes\\data\\sigh_reports.json',
             'chat-informacoes\\data\\tasy_reports.json'
         )
-        #self.feedback_handler = FeedbackHandler()
+        self.feedback_handler = FeedbackHandler()
         
         # Inicializa o WebhookHandler e passa a instância do bot
         self.webhook_handler = WebhookHandler(self)

@@ -4,7 +4,7 @@ import logging
 import threading
 from dotenv import load_dotenv
 from src.bot import FhemigChatbot
-from src.handlers.webhook_handler import WebhookHandler
+
 # Configuração de logging
 def setup_logging():
     """
