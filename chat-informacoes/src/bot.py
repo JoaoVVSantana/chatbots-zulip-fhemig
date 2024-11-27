@@ -80,7 +80,6 @@ class FhemigChatbot:
         # Lógica para feedback e continuação ou encerramento da conversa
         elif current_state == 'feedback': self.state_feedback(content,sender_id,sender_full_name,message)    
         elif current_state == 'feedback_ni': self.state_feedback_ni(content,sender_id,current_state,message)
-        else: self.invalid()
             
             
     def state_feedback_ni (self,content,sender_id,current_state,message) -> None:
@@ -122,6 +121,7 @@ class FhemigChatbot:
             print(f"INFORMAÇÃO SELECIONADA: Estado atual: {current_state}, Entrada do usuário: {content}")
         else:
             self.send_response(message, response['message'])
+            print(f"INFORMAÇÃO INVALIDA: Estado atual: {current_state}, Entrada do usuário: {content}")
     
     def state_unit_selected(self,content,sender_id,current_state,message) -> None:
 
@@ -151,8 +151,10 @@ class FhemigChatbot:
                     response = self.information_handler.handle_tasy(unit = self.user_states[sender_id]['unit'], system=self.user_states[sender_id]['system'])                 
                     self.user_states[sender_id]['state'] = 'feedback'
         else:
-                response = self.invalid()
                 print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
+                response = self.information_handler.create_error_response()                 
+                self.user_states[sender_id]['state'] = 'unit_selected'
+
         self.send_response(message, response['message'] if isinstance(response, dict) else response)
 
     def state_feedback(self,content,sender_id,sender_full_name,message) -> None:
@@ -186,15 +188,12 @@ class FhemigChatbot:
 
                             "**Até a próxima!**")    
                 self.send_response(message, response)
-                
                 self.user_states = {}
-   
-                
+        else:   
 
-    def invalid (self,content,current_state) -> None:
-        response = "Opção inválida, por favor, selecione uma das opções apresentadas."
-        print(f"Estado atual: {current_state}, Entrada do usuário: {content}")
-        return response
+                response= (f"Por favor, digite uma opção válida! ")    
+                self.send_response(message, response)
+
     
     def send_response(self, original_message: Dict[str, Any], response_content: str) -> None:
         """

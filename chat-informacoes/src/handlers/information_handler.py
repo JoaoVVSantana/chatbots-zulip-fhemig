@@ -271,6 +271,31 @@ class InformationHandler:
                 "next_state": "feedback"
             }
 
+    def handle(self, user_input: str) -> Dict[str, Any]:
+        """
+        Processa a entrada do usuário para seleção de unidade.
+
+        :param user_input: Entrada do usuário (número da unidade).
+        :return: Dicionário contendo o resultado do processamento.
+        """
+        if user_input in [str(i) for i in range(1, 19)]:
+            selected_unit = self.units[int(user_input) - 1]
+            return self.create_success_response(selected_unit)
+        else:
+            return self.create_error_response()
+
+    def create_error_response(self) -> Dict[str, Any]:
+        """
+        Cria uma resposta de erro para seleção inválida de informação.
+
+        :param error_message: Mensagem de erro a ser exibida.
+        :return: Dicionário com a resposta formatada de erro.
+        """
+        return {
+            "success": False,
+            "message": "Por favor, digite apenas o número das opções fornecidas"
+        }
+
 
 
     def handle_feedback(self) -> Dict[str, Any]:
