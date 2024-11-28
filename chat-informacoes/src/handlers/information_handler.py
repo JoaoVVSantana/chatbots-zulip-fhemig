@@ -293,7 +293,7 @@ class InformationHandler:
         """
         return {
             "success": False,
-            "message": "Por favor, digite apenas o número das opções fornecidas"
+            "message": "🚨 Opção inválida. Por favor, selecione uma das opções fornecidas! 🚨"
         }
 
 

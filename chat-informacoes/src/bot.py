@@ -191,7 +191,7 @@ class FhemigChatbot:
                 self.user_states = {}
         else:   
 
-                response= (f"Por favor, digite uma opção válida! ")    
+                response= (f"🚨 Por favor, digite uma opção válida! 🚨")    
                 self.send_response(message, response)
 
     

@@ -135,5 +135,5 @@ class UnitHandler:
         """
         return {
             "success": False,
-            "message": "Por favor, digite apenas o número da unidade desejada."
+            "message": "🚨 Por favor, digite apenas o número da unidade desejada! 🚨"
         }
