@@ -113,3 +113,15 @@ class FeedbackHandler:
             return {'error': 'Nenhum feedback coletado ainda.'}
         except json.JSONDecodeError:
             return {'error': 'Erro ao ler o arquivo de feedback.'}
+
+    def create_error_response(self) -> Dict[str, Any]:
+        """
+        Cria uma resposta de erro para seleção inválida de informação.
+
+        :param error_message: Mensagem de erro a ser exibida.
+        :return: Dicionário com a resposta formatada de erro.
+        """
+        return {
+            "success": False,
+            "message": "🚨 Opção inválida. Por favor, selecione uma das opções fornecidas! 🚨"
+        }

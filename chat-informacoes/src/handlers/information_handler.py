@@ -47,7 +47,7 @@ class InformationHandler:
         except json.JSONDecodeError:
             print(f"Erro: Falha ao decodificar o arquivo JSON: {file_path}")
             return {}
-
+    
     def handle_indicator_fhemig_futuro(self, indicator_choice: str, unit: str) -> Dict[str, Any]:
         """
         Processa a solicitação de um indicador específico do Painel Fhemig do Futuro.
@@ -141,7 +141,7 @@ class InformationHandler:
 
                         "📹 **Tutorial Visual:**\n"
                         "Para uma demonstração prática, confira o vídeo tutorial abaixo. Ele mostra como obter o indicador 'Taxa de Ocupação Hospitalar' como exemplo, mas o processo é similar para outros indicadores.\n\n"
-                        "[Inserir link do vídeo aqui]\n\n"
+                        f"**[Clique aqui para acessar o vídeo]({f"https://1drv.ms/v/c/78bf597e1f7e9eb6/EbLT6MGZTC9Ds0GV0IKoGqUBLmCxq0iWEx-38_axKCRK5Q?e=coEKti"})**\n\n"
 
                         "Precisa de mais alguma orientação ou gostaria de explorar outro indicador? Estou aqui para ajudar! 😊\n\n"
 
@@ -271,31 +271,6 @@ class InformationHandler:
                 "next_state": "feedback"
             }
 
-    def handle(self, user_input: str) -> Dict[str, Any]:
-        """
-        Processa a entrada do usuário para seleção de unidade.
-
-        :param user_input: Entrada do usuário (número da unidade).
-        :return: Dicionário contendo o resultado do processamento.
-        """
-        if user_input in [str(i) for i in range(1, 19)]:
-            selected_unit = self.units[int(user_input) - 1]
-            return self.create_success_response(selected_unit)
-        else:
-            return self.create_error_response()
-
-    def create_error_response(self) -> Dict[str, Any]:
-        """
-        Cria uma resposta de erro para seleção inválida de informação.
-
-        :param error_message: Mensagem de erro a ser exibida.
-        :return: Dicionário com a resposta formatada de erro.
-        """
-        return {
-            "success": False,
-            "message": "🚨 Opção inválida. Por favor, selecione uma das opções fornecidas! 🚨"
-        }
-
 
 
     def handle_feedback(self) -> Dict[str, Any]:
@@ -319,3 +294,15 @@ class InformationHandler:
                 "message": message,
                 "next_state": "feedback"
             }
+    
+    def create_error_response(self) -> Dict[str, Any]:
+        """
+        Cria uma resposta de erro para seleção inválida de informação.
+
+        :param error_message: Mensagem de erro a ser exibida.
+        :return: Dicionário com a resposta formatada de erro.
+        """
+        return {
+            "success": False,
+            "message": "🚨 Opção inválida. Por favor, selecione uma das opções fornecidas! 🚨"
+        }
